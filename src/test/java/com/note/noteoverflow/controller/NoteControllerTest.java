@@ -1,5 +1,6 @@
 package com.note.noteoverflow.controller;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,11 @@ class NoteControllerTest {
         mvc.perform(get("/notes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("notes/index"))
                 .andExpect(model().attributeExists("notes"));
     }
 
+    @Disabled("구현 중")
     @DisplayName("[view][GET] 노트 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingArticleView_thenReturnsArticleView() throws Exception {
