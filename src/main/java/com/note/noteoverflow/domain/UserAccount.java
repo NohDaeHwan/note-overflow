@@ -4,14 +4,8 @@ import com.note.noteoverflow.domain.type.RoleType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -22,9 +16,8 @@ import java.util.Objects;
 		@Index(columnList = "createdAt"),
 		@Index(columnList = "createdBy")
 })
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class UserAccount {
+public class UserAccount extends AuditingFields {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,22 +46,6 @@ public class UserAccount {
 
 	@Setter
 	private int sharedCount; // 노트 공유 수
-
-	@CreatedDate
-	@Column(nullable = false, updatable = false)
-	private LocalDateTime createdAt; // 생성일시
-
-	@CreatedBy
-	@Column(nullable = false, updatable = false, length = 100)
-	private String createdBy; // 생성자
-
-	@LastModifiedDate
-	@Column(nullable = false)
-	private LocalDateTime modifiedAt; // 수정일시
-
-	@LastModifiedBy
-	@Column(nullable = false, length = 100)
-	private String modifiedBy; // 수정자
 
 	protected UserAccount() {}
 
