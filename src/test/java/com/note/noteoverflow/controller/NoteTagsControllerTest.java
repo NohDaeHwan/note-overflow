@@ -28,6 +28,7 @@ class NoteTagsControllerTest {
         mvc.perform(get("/tags"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("tags/tags"))
                 .andExpect(model().attributeExists("tags"));
     }
 
