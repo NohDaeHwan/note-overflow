@@ -41,58 +41,86 @@
                 <div class="container">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-1 text-gray-800">Notes</h1><br/>
+                    <h1 class="h3 mb-1 text-gray-800">Tags</h1><br/>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group mb-4">
-                            <a type="button" href="#" class="btn btn-outline-dark">인기순</a>
-                            <a type="button" href="#" class="btn btn-outline-dark">최신등록순</a>
+                    <!-- Topbar Search -->
+                    <form action="#" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light small" placeholder="Search for..."
+                                   aria-label="Search" aria-describedby="basic-addon2" name="tag" />
+                            <div class="input-group-append">
+                                <button class="btn btn-dark" type="submit">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
                         </div>
-
-                        <div class="btn-group mb-4">
-                            <a type="button" href="#" class="btn btn-outline-dark">10</a>
-                            <a type="button" href="#" class="btn btn-outline-dark">30</a>
-                            <a type="button" href="#" class="btn btn-outline-dark">60</a>
-                        </div>
-                    </div>
-
+                        <br/>
+                    </form>
 
                     <!-- Content Row -->
-                    <div class="row">
-                        <!-- Border Left Utilities -->
-                        <div class="col-lg-8">
+                    <div class="row" id="tag_content">
+
+                        <!-- Tags Content -->
+                        <div class="col-lg-2">
                             <div class="card mb-4 py-3 border-left-warning">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-start">
-                                        <div>
-                                            <a href="#" style="text-decoration:none; color:black;">springBoot</a><br/>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <div class="badge bg-warning p-2">
-                                                <a href="#" style="color: white;">springboot</a>
-                                            </div>
-                                            <div class="badge bg-warning p-2">
-                                                <a href="#" style="color: white;">java</a>
-                                            </div>
+                                        <div class="">
                                             <div class="badge bg-warning p-2">
                                                 <a href="#" style="color: white;">spring</a>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <a href="#" style="text-decoration:none; color:red;">eoghks5953</a> <code style="color: gray;">2022-01-01</code>
+                                            <br/>
+                                            <div class="badge">
+                                                <div>15 notes</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-2">
+                            <div class="card mb-4 py-3 border-left-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="">
+                                            <div class="badge bg-warning p-2">
+                                                <a href="#" style="color: white;">spring</a>
+                                            </div>
+                                            <br/>
+                                            <div class="badge">
+                                                <div>15 notes</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="card mb-4 py-3 border-left-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="">
+                                            <div class="badge bg-warning p-2">
+                                                <a href="#" style="color: white;">spring</a>
+                                            </div>
+                                            <br/>
+                                            <div class="badge">
+                                                <div>15 notes</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Pagination -->
                     <div class="row">
                         <div class="col-sm-12 col-md-5">
-                            Showing 1 to 26 of 127 entries
+                            Showing 1 to 13 of 345 entries
                         </div>
                         <div class="col-sm-12 col-md-7">
                             <ul class="pagination">
@@ -102,13 +130,11 @@
                                 <li class="paginate_button page-item previous">
                                     <a href="#" class="page-link">&lt;</a>
                                 </li>
-
                                 <li class="page-item"><a class="page-link" href="#">1</a></li>
                                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                                 <li class="page-item"><a class="page-link" href="#">4</a></li>
                                 <li class="page-item"><a class="page-link" href="#">5</a></li>
-
                                 <li class="paginate_button page-item next">
                                     <a href="#" class="page-link">&gt;</a>
                                 </li>
@@ -117,9 +143,11 @@
                                 </li>
                             </ul>
                         </div>
+
                         <div class="col-lg-1">
                         </div>
                     </div>
+
                 </div>
                 <!-- /.container-fluid -->
 

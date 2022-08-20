@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#header-sidebar" th:replace="layout/sidebar :: .sidebar" />
+    <attr sel="#header-topbar" th:replace="layout/topbar :: .topbar" />
+    <attr sel="#footer" th:replace="layout/footer :: footer" />
+    <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal" />
+</thlogic>

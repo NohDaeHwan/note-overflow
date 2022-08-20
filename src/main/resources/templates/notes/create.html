@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Note Overflow</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"/>
+</head>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul id="header-sidebar">
+            SideBar 부분
+            <br/>
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav id="header-topbar">
+                    TopBar 부분
+                    <br/>
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-1 text-gray-800">Create Note</h1><br/><br/>
+
+                    <!-- Note Create Form-->
+                    <form class="form-contact contact_form mb-80">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label for="title">Title : </label>
+                                    <input class="form-control" id="title" name="title" type="text"  placeholder="Title Here" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mCategory">Major Category : </label>
+                                    <input class="form-control" id="mCategory" name="mCategory" type="text"  placeholder="Major Category Here" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sCategory">Sub Category : </label>
+                                    <input class="form-control" id="sCategory" name="sCategory" type="text"  placeholder="Sub Category Here" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tags">Tags : </label>
+                                    <div class="input-group mb-3">
+                                        <input class="form-control" id="tags" name="tags" type="text"  placeholder="Tags Here">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="main-content" class="form-control summernote" name="content" required></textarea>
+                        </div>
+                    </form>
+
+                    <div class="form-group mt-3">
+                        <button id="btn-save" class="btn btn-warning">Share Note</button>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer id="footer">
+                <br/>
+                Footer 부분
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div id="logoutModal">
+        <!-- 로그아웃 모델 -->
+    </div>
+
+    <script src="https://kit.fontawesome.com/84c60fd987.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Summernote -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script>
+        $('.summernote').summernote({
+            placeholder: 'Content Here',
+            tabsize: 2,
+            height: 400,
+            maxHeight: 1200,
+            minHeight: 400,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['help']]
+            ]
+        });
+    </script>
+
+</body>
+</html>
