@@ -1,6 +1,5 @@
 package com.note.noteoverflow.controller;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +32,30 @@ class NoteControllerTest {
                 .andExpect(model().attributeExists("notes"));
     }
 
-    @Disabled("구현 중")
     @DisplayName("[view][GET] 노트 페이지 - 정상 호출")
     @Test
-    public void givenNothing_whenRequestingArticleView_thenReturnsArticleView() throws Exception {
+    public void givenNothing_whenRequestingNoteView_thenReturnsNoteView() throws Exception {
         // Given
 
         // When & Then
         mvc.perform(get("/notes/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(model().attributeExists("note"));
+                .andExpect(view().name("notes/detail"))
+                .andExpect(model().attributeExists("note"))
+                .andExpect(model().attributeExists("sharedNoteComment"));
+    }
+
+    @DisplayName("[view][GET] 노트 생성 페이지 - 정상 호출")
+    @Test
+    public void givenNothing_whenRequestingNoteCreateView_thenReturnsNoteCreateView() throws Exception {
+        // Given
+
+        // When & Then
+        mvc.perform(get("/notes/create"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("notes/create"));
     }
 
 }
