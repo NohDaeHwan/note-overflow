@@ -36,7 +36,7 @@ public class NoteTags extends AuditingFields {
 		this.tag = tag;
 	}
 
-	protected static NoteTags of(Note note, String tag) {
+	public static NoteTags of(Note note, String tag) {
 		return new NoteTags(note, tag);
 	}
 

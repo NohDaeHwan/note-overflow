@@ -5,7 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -36,17 +38,22 @@ public class Shared extends AuditingFields {
 	@ManyToOne(optional = false)
 	private Note note; // 노트 (ID)
 
+	@ToString.Exclude
+	@OrderBy("createdAt DESC")
+	@OneToMany(mappedBy = "shared", cascade = CascadeType.ALL)
+	private final Set<SharedNoteComment> SharedNoteComments = new LinkedHashSet<>();
+
 	protected Shared() {}
 
-	private Shared(int viewCount, int likeCount, UserAccount userAccount, Note note) {
-		this.viewCount = viewCount;
-		this.likeCount = likeCount;
+	private Shared(UserAccount userAccount, Note note, int viewCount, int likeCount) {
 		this.userAccount = userAccount;
 		this.note = note;
+		this.viewCount = viewCount;
+		this.likeCount = likeCount;
 	}
 
-	public static Shared of(int viewCount, int likeCount, UserAccount userAccount, Note note) {
-		return new Shared(viewCount, likeCount, userAccount, note);
+	public static Shared of(UserAccount userAccount, Note note, int viewCount, int likeCount) {
+		return new Shared(userAccount, note, viewCount, likeCount);
 	}
 
 	@Override
