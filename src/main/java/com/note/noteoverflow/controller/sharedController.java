@@ -41,7 +41,7 @@ public class sharedController {
         SharedWithCommentsResponse sharedNote = SharedWithCommentsResponse.from(sharedService.getSharedWithComments(noteId));
 
         map.addAttribute("sharedNote", sharedNote);
-        map.addAttribute("sharedNoteComment", sharedNote.sharedNoteCommentResponses());
+        map.addAttribute("sharedNoteComments", sharedNote.sharedNoteCommentResponses());
 
         return "notes/detail";
     }

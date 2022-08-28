@@ -4,4 +4,30 @@
     <attr sel="#header-topbar" th:replace="layout/topbar :: .topbar" />
     <attr sel="#footer" th:replace="layout/footer :: footer" />
     <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal" />
+
+    <attr sel="#wrapper" th:object="${sharedNote}">
+
+        <attr sel="#note-header/h2" th:text="${sharedNote.noteResponse.title}" />
+        <attr sel="div#note-tags" th:each="hashtag : ${sharedNote.noteResponse.noteTagsResponses}" th:remove="all-but-first">
+            <attr sel="div/a" th:text="${hashtag.tag}" />
+        </attr>
+        <attr sel="#note-create-at" th:datetime="${sharedNote.createdAt}" th:text="${#temporals.format(sharedNote.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
+        <attr sel="#note-liked/h6" th:text="${sharedNote.likeCount}" />
+        <attr sel="#note-viewed/h6" th:text="${sharedNote.viewCount}" />
+        <attr sel="#note-content" th:text="${sharedNote.noteResponse.content}" />
+
+        <attr sel=".note-id" th:name="noteId" th:value="${sharedNote.noteResponse.id}" />
+        <attr sel="#comment-form" th:action="@{/comments/new}" th:method="post">
+            <attr sel="#comment-textbox" th:name="content" />
+        </attr>
+
+        <attr sel="#note-comments" th:remove="all-but-first">
+            <attr sel="div[0]" th:each="sharedNoteComment : ${sharedNoteComments}"  >
+                <attr sel="#comment-nickname" th:text="${sharedNoteComment.nickname}" />
+                <attr sel="#comment-created-at" th:datetime="${sharedNoteComment.createdAt}" th:text="${#temporals.format(sharedNoteComment.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
+                <attr sel="#comment-content" th:text="${sharedNoteComment.content}" />
+            </attr>
+        </attr>
+
+    </attr>
 </thlogic>

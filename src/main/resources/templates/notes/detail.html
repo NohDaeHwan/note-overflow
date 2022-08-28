@@ -42,12 +42,12 @@
 
                     <!-- Page Heading -->
                     <div class="row">
-                        <div class="col-xl-10 col-md-10 mb-2">
+                        <div id="note-header" class="col-xl-10 col-md-10 mb-2">
                             <h2>SpringBoot에 대하여 ~~</h2>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div id="note-tags" class="row mb-3">
                         <div class="badge bg-warning p-2 ml-2 mr-4">
                             <a href="#" style="color: white;">spring</a>
                         </div>
@@ -60,13 +60,13 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-xl-4 col-md-10 mb-2">
+                        <div id="note-create-at" class="col-xl-4 col-md-10 mb-2">
                             <h6>2022-03-01</h6>
                         </div>
-                        <div class="col-xl-4 col-md-10 mb-2">
-                            <h6>2022-04-13</h6>
+                        <div id="note-liked" class="col-xl-4 col-md-10 mb-2">
+                            <h6>Liked 2345</h6>
                         </div>
-                        <div class="col-xl-4 col-md-10 mb-2">
+                        <div id="note-viewed" class="col-xl-4 col-md-10 mb-2">
                             <h6>viewed 4356</h6>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-8 col-md-10 mb-4">
                             <!-- Note section -->
-                            <div class="mb-4">
+                            <div id="note-content" class="mb-4">
                                 내용!@!@!@!@!@!@!@!@!@!@!<br/>
                                 내용!@!@!@!@!@!@!@!@!@!@!<br/>
                                 내용!@!@!@!@!@!@!@!@!@!@!<br/>
@@ -96,40 +96,36 @@
                                 <div class="card bg-light">
                                     <div class="card-body">
                                         <!-- Comment form-->
-                                        <form class="mb-4"><textarea class="form-control" rows="3" placeholder="댓글을 입력해주세요!"></textarea></form>
+                                        <form id="comment-form" class="mb-4">
+                                            <input type="hidden" class="note-id">
+                                            <textarea id="comment-textbox" class="form-control mb-3" rows="3" placeholder="댓글을 입력해주세요!"></textarea>
+                                            <button class="btn btn-warning" id="comment-submit" type="submit">작성</button>
+                                        </form>
                                         <!-- Comment with nested comments-->
-                                        <div class="d-flex mb-4">
-                                            <!-- Parent comment-->
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                                <!-- Child comment 1-->
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-                                                    </div>
+                                        <div id="note-comments">
+                                            <div class="d-flex">
+                                                <!-- Parent comment-->
+                                                <div class="flex-shrink-0 mr-3">
+                                                    <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
                                                 </div>
-                                                <!-- Child comment 2-->
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        When you put money directly to a problem, it makes a good headline.
-                                                    </div>
+                                                <div class="ms-3">
+                                                    <div id="comment-nickname" class="fw-bold">Commenter Name</div>
+                                                    <span id="comment-created-at" class="text-black-50">2022-02-28 12:34</span>
+                                                    <div id="comment-content">If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.</div>
+                                                </div>
+                                            </div>
+                                            <!-- Single comment-->
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0">
+                                                    <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+                                                </div>
+                                                <div class="ms-3">
+                                                    <div class="fw-bold">Commenter Name </div>
+                                                    <div>When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Single comment-->
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </section>
