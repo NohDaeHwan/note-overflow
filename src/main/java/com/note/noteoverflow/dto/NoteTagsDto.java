@@ -3,7 +3,6 @@ package com.note.noteoverflow.dto;
 import com.note.noteoverflow.domain.Note;
 import com.note.noteoverflow.domain.NoteTags;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record NoteTagsDto(
@@ -20,8 +19,8 @@ public record NoteTagsDto(
         return new NoteTagsDto(id, noteId, tag, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
-    public static NoteTagsDto of(Long noteId, String tag) {
-        return new NoteTagsDto(null, noteId, tag, null, null, null, null);
+    public static NoteTagsDto of(String tag) {
+        return new NoteTagsDto(null, null, tag, null, null, null, null);
     }
 
     public static NoteTagsDto from(NoteTags entity) {
