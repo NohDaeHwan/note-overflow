@@ -2,18 +2,19 @@ package com.note.noteoverflow.controller;
 
 import com.note.noteoverflow.dto.response.SharedResponse;
 import com.note.noteoverflow.dto.response.SharedWithCommentsResponse;
+import com.note.noteoverflow.dto.security.NotePrincipal;
 import com.note.noteoverflow.service.SharedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,17 +27,18 @@ public class sharedController {
 
     @GetMapping
     public String notes(
-            @RequestParam(required = false) String searchValue,
-            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-            ModelMap map
+            @RequestParam(required = false) String query,
+            @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(defaultValue = "popular") String tab,
+            ModelMap model
     ) {
-        Page<SharedResponse> notes = sharedService.searchSharedNote(searchValue, pageable).map(SharedResponse::from);
-
-        map.addAttribute("notes", notes);
+        Page<SharedResponse> notes = sharedService.noteList(query, tab, pageable).map(SharedResponse::from);
+        model.addAttribute("notes", notes);
         return "notes/index";
     }
 
-    @GetMapping("/{noteId}")
+    // 노트 상세 페이지
+    @GetMapping("/detail/{noteId}")
     public String note(@PathVariable Long noteId, ModelMap map) {
         SharedWithCommentsResponse sharedNote = SharedWithCommentsResponse.from(sharedService.getSharedWithComments(noteId));
 
@@ -44,6 +46,31 @@ public class sharedController {
         map.addAttribute("sharedNoteComments", sharedNote.sharedNoteCommentResponses());
 
         return "notes/detail";
+    }
+
+    // 개인 노트 공유
+    @PostMapping("/{noteId}/shared")
+    public ResponseEntity<SharedResponse> noteShared(@PathVariable Long noteId,
+                                                 @AuthenticationPrincipal NotePrincipal principal) {
+        SharedResponse result = SharedResponse.from(sharedService.noteShared(principal.toDto(), noteId));
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    // 개인 노트 공유 취소
+    @PostMapping("/{noteId}/sharedCancel")
+    public ResponseEntity<Integer> noteSharedCancel(@PathVariable Long noteId,
+                                                    @AuthenticationPrincipal NotePrincipal principal) {
+        int result = sharedService.noteSharedCancel(principal.toDto(), noteId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    // 추천 검색어
+    @ResponseBody
+    @GetMapping("/recommend")
+    public ResponseEntity<List<String>> recommendedQuery(@RequestParam("query") String query) {
+        List<String> tags = sharedService.recommendedQuery(query);
+        System.out.println(tags);
+        return ResponseEntity.status(HttpStatus.OK).body(tags);
     }
 
 }

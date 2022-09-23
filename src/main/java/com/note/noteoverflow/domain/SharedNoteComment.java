@@ -9,10 +9,10 @@ import java.util.Objects;
 
 @Getter
 @ToString
-@Table(indexes = {
+@Table(name = "shared_note_comment", indexes = {
 		@Index(columnList = "content"),
-		@Index(columnList = "createdAt"),
-		@Index(columnList = "createdBy")
+		@Index(columnList = "created_at"),
+		@Index(columnList = "created_by")
 })
 @Entity
 public class SharedNoteComment extends  AuditingFields {
@@ -26,10 +26,12 @@ public class SharedNoteComment extends  AuditingFields {
 	private String content; // 내용
 
 	@Setter
+	@JoinColumn(name = "shared_id")
 	@ManyToOne(optional = false)
 	private Shared shared; // 공유 노트 (ID)
 
 	@Setter
+	@JoinColumn(name = "user_account_id")
 	@ManyToOne(optional = false)
 	private UserAccount userAccount; // 회원 (ID)
 

@@ -37,7 +37,7 @@ public record SharedResponse(
                 dto.noteDto().id(),
                 dto.noteDto().title(),
                 dto.noteDto().content(),
-                dto.noteDto().noteTagsDto().stream()
+                dto.noteDto().noteTagsDtos().stream()
                         .map(NoteTagsResponse::from)
                                 .collect(Collectors.toCollection(LinkedHashSet::new)),
                 dto.viewCount(),

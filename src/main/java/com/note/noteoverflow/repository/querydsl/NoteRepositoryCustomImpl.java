@@ -23,4 +23,14 @@ public class NoteRepositoryCustomImpl extends QuerydslRepositorySupport implemen
         return query.fetch();
     }
 
+    @Override
+    public List<Long> findBySharing() {
+        QNote note = QNote.note;
+
+        JPQLQuery<Long> query = from(note)
+                .select(note.id)
+                .where(note.sharing.eq(true));
+        return query.fetch();
+    }
+
 }
