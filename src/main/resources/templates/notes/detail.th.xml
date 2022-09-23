@@ -8,13 +8,18 @@
     <attr sel="#wrapper" th:object="${sharedNote}">
 
         <attr sel="#note-header/h2" th:text="${sharedNote.noteResponse.title}" />
-        <attr sel="div#note-tags" th:each="hashtag : ${sharedNote.noteResponse.noteTagsResponses}" th:remove="all-but-first">
-            <attr sel="div/a" th:text="${hashtag.tag}" />
+        <attr sel="div#note-tags" th:remove="all-but-first">
+            <attr sel="div" th:each="hashtag : ${sharedNote.noteResponse.noteTagsResponses}">
+                <attr sel="a" th:text="${hashtag.tag}" th:href="@{/notes(query=${hashtag.tag})}" />
+            </attr>
         </attr>
         <attr sel="#note-create-at" th:datetime="${sharedNote.createdAt}" th:text="${#temporals.format(sharedNote.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
-        <attr sel="#note-liked/h6" th:text="${sharedNote.likeCount}" />
-        <attr sel="#note-viewed/h6" th:text="${sharedNote.viewCount}" />
-        <attr sel="#note-content" th:text="${sharedNote.noteResponse.content}" />
+        <attr sel="#note-liked/h6" th:text="'조회수 '+${sharedNote.likeCount}+'회'" />
+        <attr sel="#note-viewed/h6" th:text="'좋아요 '+${sharedNote.viewCount}+'개'" />
+        <attr sel="#note-nickname/a" th:text="${sharedNote.noteResponse.nickname}" th:href="@{'/users/' + ${sharedNote.noteResponse.userId}}">
+            <attr sel="span" th:text="' 3명'" />
+        </attr>
+        <attr sel="#note-content" th:utext="${sharedNote.noteResponse.content}" />
 
         <attr sel=".note-id" th:name="noteId" th:value="${sharedNote.noteResponse.id}" />
         <attr sel="#comment-form" th:action="@{/comments/new}" th:method="post">

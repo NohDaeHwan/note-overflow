@@ -7,12 +7,14 @@
 
     <attr sel="#wrapper" th:object="${notes}">
         <attr sel="#note-list" th:each="note : ${notes}">
-            <attr sel="div#note-title/a" th:text="${note.title}" th:href="@{'/notes/' + ${note.noteId}}" />
-            <attr sel="div#note-tags" th:each="hashtag : ${note.noteTagsResponses}" th:remove="all-but-first">
-                <attr sel="div/a" th:text="${hashtag.tag}" />
+            <attr sel="div#note-title/a" th:text="${note.title}" th:href="@{'/notes/detail/' + ${note.noteId}}" />
+            <attr sel="div#note-tags" th:remove="all-but-first">
+                <attr sel="div" th:each="hashtag : ${note.noteTagsResponses}">
+                    <attr sel="a" th:text="${hashtag.tag}" th:href="@{/notes(query=${hashtag.tag})}" />
+                </attr>
             </attr>
             <attr sel="div#note-create">
-                <attr sel="a" th:text="${note.nickname}" />
+                <attr sel="a" th:text="${note.nickname}" th:href="@{'/users/' + ${note.userId}}" />
                 <attr sel="code" th:datetime="${note.createdAt}" th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd')}" />
             </attr>
         </attr>
