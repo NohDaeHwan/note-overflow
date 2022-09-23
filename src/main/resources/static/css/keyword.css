@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+.keywords {
+            z-index: 1;
+            background-color: white;
+            display: none;
+            position: absolute;
+            top: 40px;
+            width: 365px;
+            color: black;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+.keywords li:hover,
+.keywords .selected {
+            cursor: pointer;
+            background-color: rgb(253, 225, 130);
+            color: black;
+        }
+        
+.keywords .active {
+     background-color: rgb(253, 225, 130);
+     color: black;
+}
+
+.keywords ul {
+     padding: 0;
+     margin: 0;
+}
+
+.keywords li {
+     list-style: none;
+     padding-left: 10px;
+}
