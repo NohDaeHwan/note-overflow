@@ -1,7 +1,21 @@
 <?xml version="1.0"?>
 <thlogic>
-    <attr sel="#header-sidebar" th:replace="layout/sidebar :: .sidebar" />
-    <attr sel="#header-topbar" th:replace="layout/topbar :: .topbar" />
-    <attr sel="#footer" th:replace="layout/footer :: footer" />
-    <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal" />
+    <attr sel="#header-sidebar" th:replace="layout/sidebar :: .sidebar"/>
+    <attr sel="#header-topbar" th:replace="layout/topbar :: .topbar"/>
+    <attr sel="#footer" th:replace="layout/footer :: footer"/>
+    <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal"/>
+
+    <attr sel="#wrapper" th:object="${tags}">
+        <attr sel="#tag-content" th:remove="all-but-first">
+            <attr sel="div.tag-list" th:each="tag : ${tags}">
+                <attr sel="div.tag-name">
+                    <attr sel="a" th:text="${tag.tag}" th:href="@{/notes(query=${tag.tag})}"/>
+                </attr>
+                <attr sel="div.tag-count">
+                    <attr sel="div" th:text="'노트수 '+${tag.tagCount}"/>
+                </attr>
+            </attr>
+
+        </attr>
+    </attr>
 </thlogic>
