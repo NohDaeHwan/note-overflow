@@ -4,4 +4,18 @@
     <attr sel="#header-topbar" th:replace="layout/topbar :: .topbar" />
     <attr sel="#footer" th:replace="layout/footer :: footer" />
     <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal" />
+
+    <attr sel="#wrapper" th:object="${users}">
+        <attr sel="#user-content" th:remove="all-but-first">
+            <attr sel="div.user-list" th:each="user : ${users}">
+                <attr sel="h5.user-name">
+                    <attr sel="a" th:text="${user.nickname}" th:href="@{/users/{userId}(userId=${user.id})}"/>
+                </attr>
+                <attr sel="h5.user-shared">
+                    <attr sel="span" th:text="'노트수 '"/>
+                    <attr sel="code" th:text="${user.sharedCount}"/>
+                </attr>
+            </attr>
+        </attr>
+    </attr>
 </thlogic>
