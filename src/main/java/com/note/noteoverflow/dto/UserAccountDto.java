@@ -24,6 +24,11 @@ public record UserAccountDto(
         return new UserAccountDto(id, userEmail, userPassword, nickname, userPhone, userRole, sharedCount, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
+    public static UserAccountDto of(Long id, String userEmail, String userPassword, String nickname, String userPhone,
+                                    RoleType userRole, int sharedCount) {
+        return new UserAccountDto(id, userEmail, userPassword, nickname, userPhone, userRole, sharedCount, null, null, null, null);
+    }
+
     public static UserAccountDto from(UserAccount entity) {
         return new UserAccountDto(
                 entity.getId(),
@@ -41,6 +46,6 @@ public record UserAccountDto(
     }
 
     public UserAccount toEntity() {
-        return UserAccount.of(userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
+        return UserAccount.of(id, userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
     }
 }
