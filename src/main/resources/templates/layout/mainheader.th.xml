@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<thlogic xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <attr sel="#notes" th:href="@{/notes}" />
+    <attr sel="#about" th:href="@{/about}" />
+    <attr sel="#login" sec:authorize="!isAuthenticated()" th:href="@{/login}" />
+    <attr sel="#join" sec:authorize="!isAuthenticated()" th:href="@{/join}" />
+    <attr sel="#logout" sec:authorize="isAuthenticated()" th:href="@{/logout}" />
+    <attr sel="#my-page" sec:authorize="isAuthenticated()" th:href="@{/users/{id}(id=${#authentication.principal.id})}" />
+</thlogic>

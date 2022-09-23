@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +10,9 @@
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Custom styles for this template-->
+    <link href="/css/keyword.css" rel="stylesheet">
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"/>
 </head>
 <body id="page-top">
 
@@ -49,10 +51,10 @@
                             </div>
                             <div class="col-xl-6 col-md-6 mb-4">
                                 <div>
-                                    <h3 class="card-title text-mute">eoghks5953</h3>
-                                    <h5 class="card-subtitle text-dark mb-2">eoghks@gmail.com</h5>
-                                    <h5 class="card-subtitle text-dark">010-1234-5678</h5>
-                                    <input type="hidden" name="principal" id="principal">
+                                    <h3 id="user-id" class="card-title text-mute">eoghks5953</h3>
+                                    <h5 id="user-email" class="card-subtitle text-dark mb-2">eoghks@gmail.com</h5>
+                                    <h5 id="user-phone" class="card-subtitle text-dark">010-1234-5678</h5>
+                                    <input type="hidden" name="principal" id="principal" th:value="${principalId}">
                                 </div>
                             </div>
                         </div>
@@ -70,20 +72,21 @@
                                 </div>
 
                                     <!-- Nav Item - Pages Collapse Menu -->
-                                    <li class="nav-item">
-                                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne1"
-                                           aria-expanded="true" aria-controls="collapseOne1">
+                                    <li class="nav-item" th:each="mCategory, num: ${sharedCategory}">
+                                        <a class="nav-link collapsed" href="#" data-toggle="collapse" th:data-target="'#collapseOne'+${num.count}"
+                                           aria-expanded="true" th:aria-controls="'collapseOne'+${num.count}">
                                             <i class="fas fa-book-open" style="color:gray;">
-                                                <span>Programing</span>
+                                                <span th:text="${mCategory}">Spring</span>
                                             </i>
                                         </a>
-                                        <div id="collapseOne1" class="collapse" aria-labelledby="headingOne1" data-parent="#accordionSidebar">
+                                        <div th:id="'collapseOne'+${num.count}" class="collapse" th:aria-labelledby="'headingOne'+${num.count}" data-parent="#accordionSidebar">
                                             <div class="py-2 collapse-inner rounded" style="background-color:rgb(234, 234, 234);">
                                                 <h6 class="collapse-header">Contents:</h6>
-                                                <a class="collapse-item">Java</a>
-                                                <a class="collapse-item">Python</a>
-                                                <a class="collapse-item">Ruby</a>
-                                                <a class="collapse-item">JavaScript</a>
+                                                <th:block th:each="list: ${sharedList}">
+                                                    <th:block th:if="${mCategory == list.MCategory}">
+                                                        <a class="collapse-item" th:onclick="'note('+${list.id}+', '+${list.userAccount.id}+')'" th:text="${list.SCategory}">Spring</a>
+                                                    </th:block>
+                                                </th:block>
                                             </div>
                                         </div>
                                     </li>
@@ -97,20 +100,21 @@
                                 </div>
 
                                 <!-- Nav Item - Pages Collapse Menu -->
-                                <li class="nav-item">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo1"
-                                       aria-expanded="true" aria-controls="collapseTwo1">
+                                <li class="nav-item" th:each="mCategory, num: ${privateCategory}">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" th:data-target="'#collapseTwo'+${num.count}"
+                                       aria-expanded="true" th:aria-controls="'collapseTwo'+${num.count}">
                                         <i class="fas fa-book-open" style="color:gray;">
-                                            <span>Spring</span>
+                                            <span th:text="${mCategory}">Spring</span>
                                         </i>
                                     </a>
-                                    <div id="collapseTwo1" class="collapse" aria-labelledby="headingTwo1" data-parent="#accordionSidebar">
+                                    <div th:id="'collapseTwo'+${num.count}" class="collapse" th:aria-labelledby="'headingTwo'+${num.count}" data-parent="#accordionSidebar">
                                         <div class="py-2 collapse-inner rounded" style="background-color:rgb(234, 234, 234);">
                                             <h6 class="collapse-header">Contents:</h6>
-                                            <a class="collapse-item">SpringBoot</a>
-                                            <a class="collapse-item">SpringJpa</a>
-                                            <a class="collapse-item">SpringBatch</a>
-                                            <a class="collapse-item">SpringSecurity</a>
+                                            <th:block th:each="list: ${privateList}">
+                                                <th:block th:if="${mCategory == list.MCategory}">
+                                                    <a class="collapse-item" th:onclick="'note('+${list.id}+', '+${list.userAccount.id}+')'" th:text="${list.SCategory}">Spring</a>
+                                                </th:block>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </li>
@@ -137,7 +141,11 @@
                                             <div class="col-xl-1 col-md-1 mb-4">
                                             </div>
                                             <div class="col-xl-10 col-md-10 mb-4">
-                                                <div id="note_main">
+                                                <div id="note-title">
+                                                </div>
+                                                <div id="note-tag">
+                                                </div>
+                                                <div id="note-main">
                                                     노트 내용
                                                 </div>
                                             </div>
@@ -200,6 +208,26 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
+    <script src="/js/custom/note.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script>
+        $('.summernote').summernote({
+            placeholder: 'Content Here',
+            tabsize: 2,
+            height: 400,
+            maxHeight: 1200,
+            minHeight: 400,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['help']]
+            ]
+        });
+    </script>
 
 </body>
 </html>

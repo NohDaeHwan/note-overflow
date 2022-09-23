@@ -11,12 +11,12 @@ import java.util.Set;
 
 @Getter
 @ToString
-@Table(indexes = {
+@Table(name = "note", indexes = {
 		@Index(columnList = "title"),
-		@Index(columnList = "mCategory"),
-		@Index(columnList = "sCategory"),
-		@Index(columnList = "createdAt"),
-		@Index(columnList = "createdBy")
+		@Index(columnList = "m_category"),
+		@Index(columnList = "s_category"),
+		@Index(columnList = "created_at"),
+		@Index(columnList = "created_by")
 })
 @Entity
 public class Note extends AuditingFields {
@@ -30,15 +30,15 @@ public class Note extends AuditingFields {
 	private String title; // 제목
 
 	@Setter
-	@Column(nullable = false, length = 50)
+	@Column(name = "m_category", nullable = false, length = 50)
 	private String mCategory; // 메인 카테고리
 
 	@Setter
-	@Column(nullable = false, length = 50)
+	@Column(name = "s_category", nullable = false, length = 50)
 	private String sCategory; // 서브 카테고리
 
 	@Setter
-	@Column(nullable = false, length = 10000)
+	@Lob
 	private String content; // 내용
 
 	@Setter
@@ -46,6 +46,7 @@ public class Note extends AuditingFields {
 	private boolean sharing; // 공유 여부
 
 	@Setter
+	@JoinColumn(name = "user_account_id")
 	@ManyToOne(optional = false)
 	private UserAccount userAccount; // 회원 (ID)
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>SideBar</title>
@@ -55,8 +55,8 @@
         </div>
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-            <a class="nav-link" href="/users/1">
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+            <a class="nav-link" th:href="@{/users/{id}(id=${#authentication.principal.id})}">
                 <i class="fa-solid fa-id-badge"></i>
                 <span>Personal Note</span>
             </a>

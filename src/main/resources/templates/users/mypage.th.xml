@@ -2,6 +2,11 @@
 <thlogic>
     <attr sel="#header-sidebar" th:replace="layout/sidebar :: .sidebar" />
     <attr sel="#header-topbar" th:replace="layout/topbar :: .topbar" />
+
+    <attr sel="#user-id" th:text="${noteUser.nickname}" />
+    <attr sel="#user-email" th:text="${noteUser.userEmail}" />
+    <attr sel="#user-phone" th:text="${noteUser.userPhone}" />
+
     <attr sel="#footer" th:replace="layout/footer :: footer" />
     <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal" />
 </thlogic>

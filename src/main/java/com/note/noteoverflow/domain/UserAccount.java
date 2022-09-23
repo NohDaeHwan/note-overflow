@@ -10,11 +10,11 @@ import java.util.Objects;
 
 @Getter
 @ToString
-@Table(indexes = {
-		@Index(columnList = "userEmail", unique = true),
-		@Index(columnList = "sharedCount"),
-		@Index(columnList = "createdAt"),
-		@Index(columnList = "createdBy")
+@Table(name = "user_account", indexes = {
+		@Index(columnList = "user_email", unique = true),
+		@Index(columnList = "shared_count"),
+		@Index(columnList = "created_at"),
+		@Index(columnList = "created_by")
 })
 @Entity
 public class UserAccount extends AuditingFields {
@@ -24,11 +24,11 @@ public class UserAccount extends AuditingFields {
 	private Long id;
 
 	@Setter
-	@Column(nullable = false, length = 100)
+	@Column(name="user_email", nullable = false, length = 100)
 	private String userEmail; // 아이디
 
 	@Setter
-	@Column(nullable = false, length = 100)
+	@Column(name="user_password", nullable = false, length = 100)
 	private String userPassword; // 비밀번호
 
 	@Setter
@@ -36,20 +36,22 @@ public class UserAccount extends AuditingFields {
 	private String nickname; // 이름
 
 	@Setter
-	@Column(length = 11)
+	@Column(name="user_phone", length = 11)
 	private String userPhone; // 전화번호
 
 	@Setter
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Column(name = "user_role", nullable = false)
 	private RoleType userRole; // (USER, ADMIN)
 
 	@Setter
+	@Column(name="shared_count")
 	private int sharedCount; // 노트 공유 수
 
 	protected UserAccount() {}
 
-	private UserAccount(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
+	private UserAccount(Long id, String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
+		this.id = id;
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 		this.nickname = nickname;
@@ -58,8 +60,8 @@ public class UserAccount extends AuditingFields {
 		this.sharedCount = sharedCount;
 	}
 
-	public static UserAccount of(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
-		return new UserAccount(userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
+	public static UserAccount of(Long id, String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
+		return new UserAccount(id, userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
 	}
 
 	@Override

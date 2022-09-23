@@ -1,33 +1,34 @@
 package com.note.noteoverflow.controller;
 
+import com.note.noteoverflow.dto.request.NoteRequest;
+import com.note.noteoverflow.dto.security.NotePrincipal;
+import com.note.noteoverflow.service.NoteService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RequestMapping("/notes")
+@RequiredArgsConstructor
 @Controller
 public class NoteController {
 
-    @GetMapping
-    public String notes(ModelMap map) {
-        map.addAttribute("notes", List.of());
-        return "notes/index";
-    }
+    private final NoteService noteService;
 
-    @GetMapping("/{noteId}")
-    public String note(@PathVariable Long noteId, ModelMap map) {
-        map.addAttribute("note", "note");
-        map.addAttribute("sharedNoteComment", List.of());
-        return "notes/detail";
-    }
-
-    @GetMapping("/create")
+    @GetMapping("/notes/create")
     public String noteCreate() {
         return "notes/create";
+    }
+
+    // 개인 노트 만들기
+    @ResponseBody
+    @PostMapping("/save_request")
+    public ResponseEntity<Integer> saveRequest(@RequestBody NoteRequest noteRequest,
+                                               @AuthenticationPrincipal NotePrincipal principal) {
+        System.out.println(noteRequest);
+        int result = noteService.saveRequest(noteRequest.toDto(principal.toDto()));
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }

@@ -9,10 +9,10 @@ import java.util.Objects;
 
 @Getter
 @ToString
-@Table(indexes = {
+@Table(name = "note_tags", indexes = {
 		@Index(columnList = "tag"),
-		@Index(columnList = "createdAt"),
-		@Index(columnList = "createdBy")
+		@Index(columnList = "created_at"),
+		@Index(columnList = "created_by")
 })
 @Entity
 public class NoteTags extends AuditingFields {
@@ -22,6 +22,7 @@ public class NoteTags extends AuditingFields {
 	private Long id;
 
 	@Setter
+	@JoinColumn(name = "note_id")
 	@ManyToOne(optional = false)
 	private Note note; // 노트 (ID)
 
@@ -36,7 +37,7 @@ public class NoteTags extends AuditingFields {
 		this.tag = tag;
 	}
 
-	protected static NoteTags of(Note note, String tag) {
+	public static NoteTags of(Note note, String tag) {
 		return new NoteTags(note, tag);
 	}
 
