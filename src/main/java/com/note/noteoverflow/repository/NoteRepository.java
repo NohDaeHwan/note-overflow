@@ -6,10 +6,14 @@ import com.note.noteoverflow.repository.querydsl.NoteRepositoryCustom;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
 
 @RepositoryRestResource
 public interface NoteRepository extends
@@ -27,5 +31,16 @@ public interface NoteRepository extends
         bindings.bind(root.createdAt).first(DateTimeExpression::eq);
         bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
     }
+
+    @Query(nativeQuery = true, value =
+            "SELECT m_category " +
+                    "FROM note " +
+                    "WHERE user_account_id = :userId AND sharing = :sharing " +
+                    "GROUP BY m_category")
+    List<Object[]> findGroupBymCategory(@Param("userId") Long userId, @Param("sharing") boolean sharing);
+
+    // 마이페이지 메인 카테고리, 서브 코테고리, 타이틀
+    @Query(nativeQuery = true, value = "SELECT * FROM note WHERE user_account_id = :userId AND sharing = :sharing")
+    List<Note> findPrivateNote(@Param("userId") Long userId, @Param("sharing") boolean sharing);
 
 }

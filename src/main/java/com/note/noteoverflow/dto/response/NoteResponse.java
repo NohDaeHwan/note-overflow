@@ -1,11 +1,9 @@
 package com.note.noteoverflow.dto.response;
 
 import com.note.noteoverflow.dto.NoteDto;
-import com.note.noteoverflow.dto.NoteTagsDto;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public record NoteResponse(
@@ -19,12 +17,12 @@ public record NoteResponse(
         String email,
         Long userId,
         String nickname,
-        Set<NoteTagsResponse> noteTagsResponses
+        List<NoteTagsResponse> noteTagsResponses
 ) {
 
     public static NoteResponse of(Long id, String title, String mCategory, String sCategory, String content,
                                   boolean sharing, LocalDateTime createdAt, String email, Long userId,
-                                  String nickname, Set<NoteTagsResponse> noteTagsResponses)
+                                  String nickname, List<NoteTagsResponse> noteTagsResponses)
     {
         return new NoteResponse(id, title, mCategory, sCategory, content, sharing, createdAt, email, userId, nickname, noteTagsResponses);
     }
@@ -46,9 +44,9 @@ public record NoteResponse(
                 dto.userAccountDto().userEmail(),
                 dto.userAccountDto().id(),
                 nickname,
-                dto.noteTagsDto().stream()
+                dto.noteTagsDtos().stream()
                         .map(NoteTagsResponse::from)
-                        .collect(Collectors.toCollection(LinkedHashSet::new))
+                        .collect(Collectors.toUnmodifiableList())
         );
     }
 

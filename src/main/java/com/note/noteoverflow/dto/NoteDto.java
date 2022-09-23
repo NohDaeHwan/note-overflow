@@ -6,13 +6,14 @@ import com.note.noteoverflow.domain.UserAccount;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public record NoteDto(
         Long id,
         UserAccountDto userAccountDto,
-        Set<NoteTagsDto> noteTagsDto,
+        List<NoteTagsDto> noteTagsDtos,
         String title,
         String mCategory,
         String sCategory,
@@ -24,10 +25,10 @@ public record NoteDto(
         String modifiedBy
 ) {
 
-    public static NoteDto of(UserAccountDto userAccountDto, Set<NoteTagsDto> noteTagsDto, String title, String mCategory,
+    public static NoteDto of(Long id, UserAccountDto userAccountDto, List<NoteTagsDto> noteTagsDtos, String title, String mCategory,
                              String sCategory, String content, boolean sharing)
     {
-        return new NoteDto(null, userAccountDto, noteTagsDto, title, mCategory, sCategory, content, sharing, null, null, null, null);
+        return new NoteDto(id, userAccountDto, noteTagsDtos, title, mCategory, sCategory, content, sharing, null, null, null, null);
     }
 
     public static NoteDto from(Note entity) {
@@ -36,7 +37,7 @@ public record NoteDto(
                 UserAccountDto.from(entity.getUserAccount()),
                 entity.getNoteTags().stream()
                         .map(NoteTagsDto::from)
-                        .collect(Collectors.toCollection(LinkedHashSet::new)),
+                        .collect(Collectors.toUnmodifiableList()),
                 entity.getTitle(),
                 entity.getMCategory(),
                 entity.getSCategory(),
@@ -49,8 +50,8 @@ public record NoteDto(
         );
     }
 
-    public Note toEntity(UserAccount userAccount) {
-        return Note.of(title, mCategory, sCategory, content, sharing, userAccount);
+    public Note toEntity() {
+        return Note.of(title, mCategory, sCategory, content, sharing, userAccountDto.toEntity());
     }
 
 }
