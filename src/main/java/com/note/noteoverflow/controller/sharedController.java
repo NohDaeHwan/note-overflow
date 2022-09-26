@@ -3,6 +3,7 @@ package com.note.noteoverflow.controller;
 import com.note.noteoverflow.dto.response.SharedResponse;
 import com.note.noteoverflow.dto.response.SharedWithCommentsResponse;
 import com.note.noteoverflow.dto.security.NotePrincipal;
+import com.note.noteoverflow.service.PaginationService;
 import com.note.noteoverflow.service.SharedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,14 +26,19 @@ public class sharedController {
 
     private final SharedService sharedService;
 
+    private final PaginationService paginationService;
+
     @GetMapping
     public String notes(
             @RequestParam(required = false) String query,
-            @PageableDefault(size = 20, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 10, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(defaultValue = "popular") String tab,
             ModelMap model
     ) {
         Page<SharedResponse> notes = sharedService.noteList(query, tab, pageable).map(SharedResponse::from);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), notes.getTotalPages());
+        System.out.println(barNumbers);
+        model.addAttribute("paginationBarNumbers", barNumbers);
         model.addAttribute("notes", notes);
         return "notes/index";
     }

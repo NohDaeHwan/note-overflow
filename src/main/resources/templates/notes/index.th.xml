@@ -18,5 +18,53 @@
                 <attr sel="code" th:datetime="${note.createdAt}" th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd')}" />
             </attr>
         </attr>
+
+        <attr sel=".page-element" th:text="'Showing '+${notes.number + 1}+' to '+${notes.totalPages}" />
+
+        <attr sel="#pagination">
+            <attr sel="li[0]/a"
+                  th:text="'<<'"
+                  th:href="@{/notes(page=0,
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      query=${param.query}
+                  )}"
+                  th:class="'page-link' + (${notes.number} <= 0 ? ' disabled' : '')"
+            />
+            <attr sel="li[1]/a"
+                  th:text="'<'"
+                  th:href="@{/notes(page=${notes.number - 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      query=${param.query}
+                  )}"
+                  th:class="'page-link' + (${notes.number} <= 0 ? ' disabled' : '')"
+            />
+            <attr sel="li[2]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
+                <attr sel="a"
+                      th:text="${pageNumber + 1}"
+                      th:href="@{/notes(page=${pageNumber},
+                          sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                          query=${param.query}
+                      )}"
+                      th:class="'page-link' + (${pageNumber} == ${notes.number} <= 0 ? ' disabled' : '')"
+                />
+            </attr>
+            <attr sel="li[3]/a"
+                  th:text="'>'"
+                  th:href="@{/notes(page=${notes.number + 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      query=${param.query}
+                  )}"
+                  th:class="'page-link' + (${notes.number} >= ${notes.totalPages - 1} ? ' disabled' : '')"
+            />
+            <attr sel="li[4]/a"
+                  th:text="'>>'"
+                  th:href="@{/notes(page=${notes.totalPages - 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      query=${param.query}
+                  )}"
+                  th:class="'page-link' + (${notes.number} >= ${notes.totalPages - 1} ? ' disabled' : '')"
+            />
+        </attr>
+
     </attr>
 </thlogic>

@@ -7,7 +7,7 @@
 
     <attr sel="#wrapper" th:object="${users}">
         <attr sel="#user-content" th:remove="all-but-first">
-            <attr sel="div.user-list" th:each="user : ${users}">
+            <attr sel="div.user-list" th:each="user : ${users.content}">
                 <attr sel="h5.user-name">
                     <attr sel="a" th:text="${user.nickname}" th:href="@{/users/{userId}(userId=${user.id})}"/>
                 </attr>
@@ -17,5 +17,53 @@
                 </attr>
             </attr>
         </attr>
+
+        <attr sel=".page-element" th:text="'Showing '+${users.number + 1}+' to '+${users.totalPages}" />
+
+        <attr sel="#pagination">
+            <attr sel="li[0]/a"
+                  th:text="'<<'"
+                  th:href="@{/users(page=0,
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      user=${param.user}
+                  )}"
+                  th:class="'page-link' + (${users.number} <= 0 ? ' disabled' : '')"
+            />
+            <attr sel="li[1]/a"
+                  th:text="'<'"
+                  th:href="@{/users(page=${users.number - 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      user=${param.user}
+                  )}"
+                  th:class="'page-link' + (${users.number} <= 0 ? ' disabled' : '')"
+            />
+            <attr sel="li[2]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
+                <attr sel="a"
+                      th:text="${pageNumber + 1}"
+                      th:href="@{/users(page=${pageNumber},
+                          sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                          user=${param.user}
+                      )}"
+                      th:class="'page-link' + (${pageNumber} == ${users.number} <= 0 ? ' disabled' : '')"
+                />
+            </attr>
+            <attr sel="li[3]/a"
+                  th:text="'>'"
+                  th:href="@{/users(page=${users.number + 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      user=${param.user}
+                  )}"
+                  th:class="'page-link' + (${users.number} >= ${users.totalPages - 1} ? ' disabled' : '')"
+            />
+            <attr sel="li[4]/a"
+                  th:text="'>>'"
+                  th:href="@{/users(page=${users.totalPages - 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      user=${param.user}
+                  )}"
+                  th:class="'page-link' + (${users.number} >= ${users.totalPages - 1} ? ' disabled' : '')"
+            />
+        </attr>
+
     </attr>
 </thlogic>

@@ -5,6 +5,7 @@ import com.note.noteoverflow.dto.response.NoteResponse;
 import com.note.noteoverflow.dto.response.UserAccountResponse;
 import com.note.noteoverflow.dto.security.NotePrincipal;
 import com.note.noteoverflow.service.MypageService;
+import com.note.noteoverflow.service.PaginationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,19 +17,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 public class UserAccountController {
 
     private final MypageService mypageService;
 
+    private final PaginationService paginationService;
+
     @GetMapping("/users")
     public String users(@RequestParam(defaultValue = "") String user,
                         @PageableDefault(size = 20) Pageable pageable,
                         ModelMap map) {
         Page<UserAccountResponse> users = mypageService.userSearch(user, pageable).map(UserAccountResponse::from);
-        System.out.println(users.getContent().get(0));
-        map.addAttribute("users", users.getContent());
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), users.getTotalPages());
+        System.out.println(barNumbers);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("users", users);
         return "users/users";
     }
 
