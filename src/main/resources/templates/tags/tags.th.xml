@@ -7,7 +7,7 @@
 
     <attr sel="#wrapper" th:object="${tags}">
         <attr sel="#tag-content" th:remove="all-but-first">
-            <attr sel="div.tag-list" th:each="tag : ${tags}">
+            <attr sel="div.tag-list" th:each="tag : ${tags.content}">
                 <attr sel="div.tag-name">
                     <attr sel="a" th:text="${tag.tag}" th:href="@{/notes(query=${tag.tag})}"/>
                 </attr>
@@ -16,6 +16,53 @@
                 </attr>
             </attr>
 
+        </attr>
+
+        <attr sel=".page-element" th:text="'Showing '+${tags.number + 1}+' to '+${tags.totalPages}" />
+
+        <attr sel="#pagination">
+            <attr sel="li[0]/a"
+                  th:text="'<<'"
+                  th:href="@{/tags(page=0,
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      tag=${param.tag}
+                  )}"
+                  th:class="'page-link' + (${tags.number} <= 0 ? ' disabled' : '')"
+            />
+            <attr sel="li[1]/a"
+                  th:text="'<'"
+                  th:href="@{/tags(page=${tags.number - 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      tag=${param.tag}
+                  )}"
+                  th:class="'page-link' + (${tags.number} <= 0 ? ' disabled' : '')"
+            />
+            <attr sel="li[2]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
+                <attr sel="a"
+                      th:text="${pageNumber + 1}"
+                      th:href="@{/tags(page=${pageNumber},
+                          sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                          tag=${param.tag}
+                      )}"
+                      th:class="'page-link' + (${pageNumber} == ${tags.number} <= 0 ? ' disabled' : '')"
+                />
+            </attr>
+            <attr sel="li[3]/a"
+                  th:text="'>'"
+                  th:href="@{/tags(page=${tags.number + 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      tag=${param.tag}
+                  )}"
+                  th:class="'page-link' + (${tags.number} >= ${tags.totalPages - 1} ? ' disabled' : '')"
+            />
+            <attr sel="li[4]/a"
+                  th:text="'>>'"
+                  th:href="@{/tags(page=${tags.totalPages - 1},
+                      sort=(${param.sort} != null ? ${param.sort} : '') + (*{sort.getOrderFor('param.sort')} != null ? (*{sort.getOrderFor('param.sort').direction.name} != 'DESC' ? ',desc' : '') : ''),
+                      tag=${param.tag}
+                  )}"
+                  th:class="'page-link' + (${tags.number} >= ${tags.totalPages - 1} ? ' disabled' : '')"
+            />
         </attr>
     </attr>
 </thlogic>
