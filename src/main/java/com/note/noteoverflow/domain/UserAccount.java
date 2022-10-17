@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -48,10 +50,14 @@ public class UserAccount extends AuditingFields {
 	@Column(name="shared_count")
 	private int sharedCount; // 노트 공유 수
 
+	@ToString.Exclude
+	@OrderBy("createdAt DESC")
+	@OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
+	private final Set<Follow> follows = new LinkedHashSet<>();
+
 	protected UserAccount() {}
 
-	private UserAccount(Long id, String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
-		this.id = id;
+	private UserAccount(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 		this.nickname = nickname;
@@ -60,8 +66,8 @@ public class UserAccount extends AuditingFields {
 		this.sharedCount = sharedCount;
 	}
 
-	public static UserAccount of(Long id, String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
-		return new UserAccount(id, userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
+	public static UserAccount of(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
+		return new UserAccount(userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
 	}
 
 	@Override

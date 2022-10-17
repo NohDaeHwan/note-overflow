@@ -19,7 +19,7 @@ class NoteTagsControllerTest {
         this.mvc = mvc;
     }
 
-    @DisplayName("[view][GET] 태그 리스트 페이지 - 정상 호출")
+    /*@DisplayName("[view][GET] 태그 리스트 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingSharedNotesView_thenReturnsSharedNotesView() throws Exception {
         // Given
@@ -31,5 +31,5 @@ class NoteTagsControllerTest {
                 .andExpect(view().name("tags/tags"))
                 .andExpect(model().attributeExists("tags"));
     }
-
+*/
 }

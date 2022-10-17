@@ -42,7 +42,7 @@ class SharedServiceTest {
     @Mock
     private NoteTagsRepository noteTagsRepository;
 
-    @DisplayName("검색어 없이 게시글을 검색하면, 게시글 리스트를 반환하다")
+    /*@DisplayName("검색어 없이 게시글을 검색하면, 게시글 리스트를 반환하다")
     @Test
     void givenNoSearchParameters_whenSearchingNotes_thenReturnsNotePage() {
         // Given
@@ -132,6 +132,6 @@ class SharedServiceTest {
         );
         ReflectionTestUtils.setField(note, "id", 1L);
         return note;
-    }
+    }*/
 
 }

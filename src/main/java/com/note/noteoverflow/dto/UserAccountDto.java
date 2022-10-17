@@ -46,6 +46,6 @@ public record UserAccountDto(
     }
 
     public UserAccount toEntity() {
-        return UserAccount.of(id, userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
+        return UserAccount.of(userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
     }
 }

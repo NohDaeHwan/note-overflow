@@ -1,8 +1,11 @@
 package com.note.noteoverflow.controller;
 
+import com.note.noteoverflow.dto.LikeNoteDto;
+import com.note.noteoverflow.dto.response.NotificationResponse;
 import com.note.noteoverflow.dto.response.SharedResponse;
 import com.note.noteoverflow.dto.response.SharedWithCommentsResponse;
 import com.note.noteoverflow.dto.security.NotePrincipal;
+import com.note.noteoverflow.service.LikeNoteService;
 import com.note.noteoverflow.service.PaginationService;
 import com.note.noteoverflow.service.SharedService;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +31,15 @@ public class sharedController {
 
     private final PaginationService paginationService;
 
+    private final LikeNoteService likeNoteService;
+
     @GetMapping
     public String notes(
             @RequestParam(required = false) String query,
-            @PageableDefault(size = 10, sort = "created_at", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(defaultValue = "popular") String tab,
+            @PageableDefault(size = 10, sort = "view_count", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap model
     ) {
-        Page<SharedResponse> notes = sharedService.noteList(query, tab, pageable).map(SharedResponse::from);
+        Page<SharedResponse> notes = sharedService.noteList(query, pageable).map(SharedResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), notes.getTotalPages());
         System.out.println(barNumbers);
         model.addAttribute("paginationBarNumbers", barNumbers);
@@ -45,12 +49,17 @@ public class sharedController {
 
     // 노트 상세 페이지
     @GetMapping("/detail/{noteId}")
-    public String note(@PathVariable Long noteId, ModelMap map) {
-        SharedWithCommentsResponse sharedNote = SharedWithCommentsResponse.from(sharedService.getSharedWithComments(noteId));
-
+    public String note(@PathVariable Long noteId, ModelMap map, @AuthenticationPrincipal NotePrincipal principal) {
+        Long loginId = 0L;
+        if (principal != null) {
+            loginId = principal.id();
+        }
+        SharedWithCommentsResponse sharedNote = sharedService.getSharedWithComments(noteId, loginId);
+        NotificationResponse notificationResponse = sharedService.getNotification(loginId);
+        System.out.println();
         map.addAttribute("sharedNote", sharedNote);
         map.addAttribute("sharedNoteComments", sharedNote.sharedNoteCommentResponses());
-
+        map.addAttribute("notificationResponse", notificationResponse);
         return "notes/detail";
     }
 
@@ -77,6 +86,28 @@ public class sharedController {
         List<String> tags = sharedService.recommendedQuery(query);
         System.out.println(tags);
         return ResponseEntity.status(HttpStatus.OK).body(tags);
+    }
+
+    // 좋아요 추가
+    @ResponseBody
+    @PostMapping("/like-note/add/{noteId}")
+    public ResponseEntity<Object> likeNoteAdd(@PathVariable Long noteId, @AuthenticationPrincipal NotePrincipal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(-1));
+        }
+        LikeNoteDto likeNote = likeNoteService.likeNoteAdd(noteId, principal.toDto());
+        return ResponseEntity.status(HttpStatus.OK).body(likeNote);
+    }
+
+    // 좋아요 삭제
+    @ResponseBody
+    @PostMapping("/like-note/delete/{noteId}")
+    public ResponseEntity<Integer> likeNoteDelete(@PathVariable Long noteId, @AuthenticationPrincipal NotePrincipal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(-1);
+        }
+        Integer result = likeNoteService.likeNoteDelete(noteId, principal.toDto());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }

@@ -12,6 +12,7 @@ public record SharedWithCommentsDto(
         NoteDto noteDto,
         UserAccountDto userAccountDto,
         Set<SharedNoteCommentDto> sharedNoteCommentDtos,
+        Set<LikeNoteDto> likeNoteDtos,
         int viewCount,
         int likeCount,
         LocalDateTime createdAt,
@@ -21,8 +22,8 @@ public record SharedWithCommentsDto(
 ) {
 
     public static SharedWithCommentsDto of(Long id, NoteDto noteDto, UserAccountDto userAccountDto, Set<SharedNoteCommentDto> sharedNoteCommentDtos,
-                                 int viewCount, int likeCount, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
-        return new SharedWithCommentsDto(id, noteDto, userAccountDto, sharedNoteCommentDtos, viewCount, likeCount, createdAt, createdBy, modifiedAt, modifiedBy);
+                                           Set<LikeNoteDto> likeNoteDtos, int viewCount, int likeCount, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        return new SharedWithCommentsDto(id, noteDto, userAccountDto, sharedNoteCommentDtos, likeNoteDtos, viewCount, likeCount, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
     public static SharedWithCommentsDto from(Shared entity) {
@@ -32,6 +33,9 @@ public record SharedWithCommentsDto(
                 UserAccountDto.from(entity.getUserAccount()),
                 entity.getSharedNoteComments().stream()
                         .map(SharedNoteCommentDto::from)
+                        .collect(Collectors.toCollection(LinkedHashSet::new)),
+                entity.getLikeNotes().stream()
+                        .map(LikeNoteDto::from)
                         .collect(Collectors.toCollection(LinkedHashSet::new)),
                 entity.getViewCount(),
                 entity.getLikeCount(),

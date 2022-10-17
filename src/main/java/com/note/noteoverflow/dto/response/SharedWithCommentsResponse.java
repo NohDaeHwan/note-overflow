@@ -11,26 +11,27 @@ public record SharedWithCommentsResponse(
         Long id,
         int viewCount,
         int likeCount,
+        boolean likeCheck,
         LocalDateTime createdAt,
         NoteResponse noteResponse,
-        Set<SharedNoteCommentResponse> sharedNoteCommentResponses
+        Set<SharedNoteCommentResponse> sharedNoteCommentResponses,
+        Set<LikeNoteResponse> likeNoteResponses
 ) {
 
-    public static SharedWithCommentsResponse of(Long id, int viewCount, int likeCount, LocalDateTime createdAt, NoteResponse noteResponse,
-                                                Set<SharedNoteCommentResponse> sharedNoteCommentResponses) {
-        return new SharedWithCommentsResponse(id, viewCount, likeCount, createdAt, noteResponse, sharedNoteCommentResponses);
-    }
-
-    public static SharedWithCommentsResponse from(SharedWithCommentsDto dto) {
+    public static SharedWithCommentsResponse of(SharedWithCommentsDto sharedWithCommentsDto, Boolean likeCheck) {
         return new SharedWithCommentsResponse(
-                dto.id(),
-                dto.viewCount(),
-                dto.likeCount(),
-                dto.createdAt(),
-                NoteResponse.from(dto.noteDto()),
-                dto.sharedNoteCommentDtos().stream()
-                        .map(SharedNoteCommentResponse::from)
-                        .collect(Collectors.toCollection(LinkedHashSet::new))
+                sharedWithCommentsDto.id(),
+                sharedWithCommentsDto.viewCount(),
+                sharedWithCommentsDto.likeCount(),
+                likeCheck,
+                sharedWithCommentsDto.createdAt(),
+                NoteResponse.from(sharedWithCommentsDto.noteDto()),
+                sharedWithCommentsDto.sharedNoteCommentDtos().stream()
+                                .map(SharedNoteCommentResponse::from)
+                                .collect(Collectors.toCollection(LinkedHashSet::new)),
+                sharedWithCommentsDto.likeNoteDtos().stream()
+                                .map(LikeNoteResponse::from)
+                                .collect(Collectors.toCollection(LinkedHashSet::new))
         );
     }
 

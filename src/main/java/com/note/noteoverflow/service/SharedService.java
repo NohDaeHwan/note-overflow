@@ -1,16 +1,16 @@
 package com.note.noteoverflow.service;
 
+import com.note.noteoverflow.domain.LikeNote;
 import com.note.noteoverflow.domain.Note;
 import com.note.noteoverflow.domain.Shared;
 import com.note.noteoverflow.domain.UserAccount;
+import com.note.noteoverflow.dto.NotificationDto;
 import com.note.noteoverflow.dto.SharedDto;
 import com.note.noteoverflow.dto.SharedWithCommentsDto;
 import com.note.noteoverflow.dto.UserAccountDto;
-import com.note.noteoverflow.dto.security.NotePrincipal;
-import com.note.noteoverflow.repository.NoteRepository;
-import com.note.noteoverflow.repository.NoteTagsRepository;
-import com.note.noteoverflow.repository.SharedRepository;
-import com.note.noteoverflow.repository.UserAccountRepository;
+import com.note.noteoverflow.dto.response.NotificationResponse;
+import com.note.noteoverflow.dto.response.SharedWithCommentsResponse;
+import com.note.noteoverflow.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -33,6 +34,17 @@ public class SharedService {
     private final NoteTagsRepository noteTagsRepository;
 
     private final UserAccountRepository userAccountRepository;
+
+    private final LikeNoteRepository likeNoteRepository;
+
+    private final NotificationRepository notificationRepository;
+
+    @Transactional(readOnly = true)
+    public NotificationResponse getNotification(Long loginId) {
+        List<NotificationDto> notificationDtos = notificationRepository.findByUserAccountIdAndReading(loginId, false)
+                .stream().map(NotificationDto::from).collect(Collectors.toCollection(ArrayList::new));
+        return NotificationResponse.of(notificationDtos, notificationDtos.size());
+    }
 
     @Transactional(readOnly = true)
     public Page<SharedDto> searchSharedNote(String searchKeyword, Pageable pageable) {
@@ -49,9 +61,16 @@ public class SharedService {
     }
 
     @Transactional(readOnly = true)
-    public SharedWithCommentsDto getSharedWithComments(Long noteId) {
-        return sharedRepository.findByNote_Id(noteId).map(SharedWithCommentsDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("노트가 없습니다 - noteId: " + noteId));
+    public SharedWithCommentsResponse getSharedWithComments(Long noteId, Long loginId) {
+        SharedWithCommentsDto sharedWithCommentsDto = SharedWithCommentsDto.from(sharedRepository.findByNote_Id(noteId).get());
+        LikeNote likeNote = likeNoteRepository.findBySharedNoteIdAndLikeId(sharedWithCommentsDto.id(), loginId);
+        Boolean likeCheck;
+        if (likeNote == null) {
+            likeCheck = false;
+        } else {
+            likeCheck = true;
+        }
+        return SharedWithCommentsResponse.of(sharedWithCommentsDto, likeCheck);
     }
 
     @Transactional(readOnly = true)
@@ -61,7 +80,7 @@ public class SharedService {
     }
 
     // 공유 노트 검색
-    public Page<SharedDto> noteList(String query, String tab, Pageable page) {
+    public Page<SharedDto> noteList(String query, Pageable page) {
         List<Long> noteIds = new ArrayList<>();
 
         if (query == null) {

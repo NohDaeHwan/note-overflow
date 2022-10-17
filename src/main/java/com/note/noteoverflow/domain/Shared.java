@@ -39,13 +39,18 @@ public class Shared extends AuditingFields {
 
 	@Setter
 	@JoinColumn(name = "note_id")
-	@ManyToOne(optional = false)
+	@OneToOne(optional = false)
 	private Note note; // 노트 (ID)
 
 	@ToString.Exclude
 	@OrderBy("createdAt DESC")
 	@OneToMany(mappedBy = "shared", cascade = CascadeType.ALL)
 	private final Set<SharedNoteComment> SharedNoteComments = new LinkedHashSet<>();
+
+	@ToString.Exclude
+	@OrderBy("createdAt DESC")
+	@OneToMany(mappedBy = "sharedNote", cascade = CascadeType.ALL)
+	private final Set<LikeNote> likeNotes = new LinkedHashSet<>();
 
 	protected Shared() {}
 

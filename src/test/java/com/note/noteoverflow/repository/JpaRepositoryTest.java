@@ -31,7 +31,7 @@ class JpaRepositoryTest {
         this.userAccountRepository = userAccountRepository;
     }
 
-    @DisplayName("select 테스트")
+    /*@DisplayName("select 테스트")
     @Test
     void givenTestData_whenSelecting_thenWorksFine() {
         // Given
@@ -88,6 +88,6 @@ class JpaRepositoryTest {
         // Then
         assertThat(noteRepository.count()).isEqualTo(previousNoteCount - 1);
         assertThat(noteTagsRepository.count()).isEqualTo(previousNoteTagCount - deletedTagSize);
-    }
+    }*/
 
 }

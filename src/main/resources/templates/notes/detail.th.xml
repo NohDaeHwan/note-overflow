@@ -14,10 +14,13 @@
             </attr>
         </attr>
         <attr sel="#note-create-at" th:datetime="${sharedNote.createdAt}" th:text="${#temporals.format(sharedNote.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
-        <attr sel="#note-liked/h6" th:text="'조회수 '+${sharedNote.likeCount}+'회'" />
-        <attr sel="#note-viewed/h6" th:text="'좋아요 '+${sharedNote.viewCount}+'개'" />
-        <attr sel="#note-nickname/a" th:text="${sharedNote.noteResponse.nickname}" th:href="@{'/users/' + ${sharedNote.noteResponse.userId}}">
-            <attr sel="span" th:text="' 3명'" />
+        <attr sel="#note-viewed" th:text="'조회수 '+${sharedNote.viewCount}+'회'" />
+        <attr sel="#note-liked">
+            <attr sel="span" th:text="' '+${sharedNote.likeCount}+'개'" />
+        </attr>
+        <attr sel="#note-nickname">
+            <attr sel="a" th:text="${sharedNote.noteResponse.nickname}" th:href="@{'/users/' + ${sharedNote.noteResponse.userId}}" />
+            <attr sel="span" th:text="'  3명'" />
         </attr>
         <attr sel="#note-content" th:utext="${sharedNote.noteResponse.content}" />
 
