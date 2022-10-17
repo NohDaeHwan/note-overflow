@@ -61,18 +61,21 @@
                     </div>
 
                     <div class="row">
-                        <div id="note-create-at" class="col-xl-3 col-md-10 mb-2">
+                        <div id="note-create-at" class="col-xl-3 col-md-10 mb-2 d-flex justify-content-center align-items-center">
                             <h6>2022-03-01</h6>
                         </div>
-                        <div id="note-liked" class="col-xl-3 col-md-10 mb-2">
-                            <h6>Liked 2345</h6>
+                        <div id="note-viewed" class="col-xl-3 col-md-10 mb-2 d-flex justify-content-center align-items-center">
+                            <h6>View 2345</h6>
                         </div>
-                        <div id="note-viewed" class="col-xl-3 col-md-10 mb-2">
-                            <h6>viewed 4356</h6>
+                        <div id="note-liked" class="col-xl-3 col-md-10 mb-2 d-flex justify-content-center align-items-center">
+                            <button class="btn btn-warning btn-sm" th:if="${sharedNote.likeCheck} == false" th:onclick="'likeAdd('+${sharedNote.noteResponse.id}+')'">좋아요</button>
+                            <button class="btn btn-danger btn-sm" th:unless="${sharedNote.likeCheck} == false" th:onclick="'likeDelete('+${sharedNote.noteResponse.id}+')'">좋아요</button>
+                            <span>Liked 4356</span>
                         </div>
-                        <div id="note-nickname" class="col-xl-3 col-md-10 mb-2">
-                            <a href="#" style="text-decoration: none; color: red;">eoghks5953<span> 3명</span></a>
-                            <button class='btn btn-warning btn-sm' th:onclick="'follow('+${sharedNote.noteResponse.userId}+')'">팔로우</button>
+                        <div id="note-nickname" class="col-xl-3 col-md-10 mb-2 d-flex justify-content-center align-items-center">
+                            <a href="#" style="text-decoration: none; color: red;">eoghks5953</a>
+                            <span> 3명</span>
+                            <button class="btn btn-warning btn-sm" th:onclick="'follow('+${sharedNote.noteResponse.userId}+')'">팔로우</button>
                         </div>
                     </div>
 
@@ -220,6 +223,7 @@
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
     <script src="/js/custom/keyword.js"></script>
+    <script src="/js/custom/like-note.js"></script>
 
 </body>
 </html>

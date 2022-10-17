@@ -6,6 +6,23 @@
     <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal" />
 
     <attr sel="#wrapper" th:object="${notes}">
+        <attr sel=".note-popular" th:href="@{/notes(query=${param.query},sort='',size=${param.size})}"
+              th:class="'btn btn-outline-dark' + (${param.sort == ''} ? ' active' : '')"
+        />
+        <attr sel=".note-update" th:href="@{/notes(query=${param.query},sort='created_at,desc',size=${param.size})}"
+              th:class="'btn btn-outline-dark' + (${param.sort == 'created_at,desc'} ? ' active' : '')"
+        />
+
+        <attr sel=".paging-10" th:href="@{/notes(query=${param.query},sort=${param.sort},size=10)}"
+              th:class="'btn btn-outline-dark' + (${notes.pageable.pageSize} == 10 ? ' active' : '')"
+        />
+        <attr sel=".paging-30" th:href="@{/notes(query=${param.query},sort=${param.sort},size=30)}"
+              th:class="'btn btn-outline-dark' + (${notes.pageable.pageSize} == 30 ? ' active' : '')"
+        />
+        <attr sel=".paging-60" th:href="@{/notes(query=${param.query},sort=${param.sort},size=60)}"
+              th:class="'btn btn-outline-dark' + (${notes.pageable.pageSize} == 60 ? ' active' : '')"
+        />
+
         <attr sel="#note-list" th:each="note : ${notes}">
             <attr sel="div#note-title/a" th:text="${note.title}" th:href="@{'/notes/detail/' + ${note.noteId}}" />
             <attr sel="div#note-tags" th:remove="all-but-first">
