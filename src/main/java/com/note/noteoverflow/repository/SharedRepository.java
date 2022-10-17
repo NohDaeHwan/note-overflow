@@ -14,7 +14,6 @@ import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,4 +39,5 @@ public interface SharedRepository extends
     Page<Shared> findByQueryResult(@Param("noteId") List<Long> noteId, Pageable page);
 
     int deleteByNote_Id(Long noteId);
+
 }
