@@ -19,7 +19,7 @@ class NoteControllerTest {
         this.mvc = mvc;
     }
 
-    @DisplayName("[view][GET] 공유 노트 리스트 (노트 공유 게시판) 페이지 - 정상 호출")
+   /* @DisplayName("[view][GET] 공유 노트 리스트 (노트 공유 게시판) 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingSharedNotesView_thenReturnsSharedNotesView() throws Exception {
         // Given
@@ -56,6 +56,6 @@ class NoteControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("notes/create"));
-    }
+    }*/
 
 }
