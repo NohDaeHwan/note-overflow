@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public record SharedWithCommentsDto(
         Long id,
         NoteDto noteDto,
-        UserAccountDto userAccountDto,
         Set<SharedNoteCommentDto> sharedNoteCommentDtos,
         Set<LikeNoteDto> likeNoteDtos,
         int viewCount,
@@ -21,16 +20,15 @@ public record SharedWithCommentsDto(
         String modifiedBy
 ) {
 
-    public static SharedWithCommentsDto of(Long id, NoteDto noteDto, UserAccountDto userAccountDto, Set<SharedNoteCommentDto> sharedNoteCommentDtos,
+    public static SharedWithCommentsDto of(Long id, NoteDto noteDto, Set<SharedNoteCommentDto> sharedNoteCommentDtos,
                                            Set<LikeNoteDto> likeNoteDtos, int viewCount, int likeCount, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
-        return new SharedWithCommentsDto(id, noteDto, userAccountDto, sharedNoteCommentDtos, likeNoteDtos, viewCount, likeCount, createdAt, createdBy, modifiedAt, modifiedBy);
+        return new SharedWithCommentsDto(id, noteDto, sharedNoteCommentDtos, likeNoteDtos, viewCount, likeCount, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
     public static SharedWithCommentsDto from(Shared entity) {
         return new SharedWithCommentsDto(
                 entity.getId(),
                 NoteDto.from(entity.getNote()),
-                UserAccountDto.from(entity.getUserAccount()),
                 entity.getSharedNoteComments().stream()
                         .map(SharedNoteCommentDto::from)
                         .collect(Collectors.toCollection(LinkedHashSet::new)),

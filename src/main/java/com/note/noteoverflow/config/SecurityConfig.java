@@ -34,7 +34,6 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(UserAccountRepository userAccountRepository) {
         return username -> userAccountRepository
                 .findByUserEmail(username)
-                .map(UserAccountDto::from)
                 .map(NotePrincipal::from)
                 .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다 - username: " + username));
     }

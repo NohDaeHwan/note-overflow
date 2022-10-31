@@ -1,9 +1,14 @@
 package com.note.noteoverflow.service;
 
 import com.note.noteoverflow.domain.Note;
+import com.note.noteoverflow.domain.NoteTags;
+import com.note.noteoverflow.domain.UserAccount;
 import com.note.noteoverflow.dto.NoteDto;
+import com.note.noteoverflow.dto.UserAccountDto;
+import com.note.noteoverflow.dto.request.NoteRequest;
 import com.note.noteoverflow.repository.NoteRepository;
 import com.note.noteoverflow.repository.NoteTagsRepository;
+import com.note.noteoverflow.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,17 +21,21 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
 
+    private final UserAccountRepository userAccountRepository;
+
     private final NoteTagsRepository noteTagsRepository;
 
     // 개인 노트 작성
     @Transactional
-    public int saveRequest(NoteDto noteDto) {
+    public int saveRequest(NoteRequest request, UserAccountDto userAccountDto) {
         try {
-            Note note = noteRepository.save(noteDto.toEntity());
+            UserAccount userAccount = userAccountRepository.findById(userAccountDto.id()).get();
+            Note note = noteRepository.save(Note.of(request.title(), request.mCategory(), request.sCategory(), request.content(),
+                    request.sharing(), userAccount));
             if (!note.equals(null)) {
-                for (int i = 0; i < noteDto.noteTagsDtos().size(); i++) {
-                    if (noteDto.noteTagsDtos().get(i).tag() != null && !noteDto.noteTagsDtos().get(i).tag().isBlank()) {
-                        noteTagsRepository.save(noteDto.noteTagsDtos().get(i).toEntity(note));
+                for (int i = 0; i < request.noteTagsRequests().size(); i++) {
+                    if (request.noteTagsRequests().get(i).tag() != null && !request.noteTagsRequests().get(i).tag().isBlank()) {
+                        noteTagsRepository.save(NoteTags.of(note, request.noteTagsRequests().get(i).tag()));
                     }
                 }
                 log.trace("개인 노트 작성");

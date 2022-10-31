@@ -6,6 +6,8 @@
     <attr sel="#user-id" th:text="${noteUser.nickname}" />
     <attr sel="#user-email" th:text="${noteUser.userEmail}" />
     <attr sel="#user-phone" th:text="${noteUser.userPhone}" />
+    <attr sel="#user-follower" th:text="'팔로워 '+${noteUser.follower}" />
+    <attr sel="#user-following" th:text="'팔로잉 '+${noteUser.following}" />
 
     <attr sel="#footer" th:replace="layout/footer :: footer" />
     <attr sel="#logoutModal" th:replace="layout/logout :: #logoutModal" />

@@ -34,29 +34,38 @@ public class sharedController {
     private final LikeNoteService likeNoteService;
 
     @GetMapping
-    public String notes(
-            @RequestParam(required = false) String query,
-            @PageableDefault(size = 10, sort = "view_count", direction = Sort.Direction.DESC) Pageable pageable,
-            ModelMap model
-    ) {
+    public String notes(@AuthenticationPrincipal NotePrincipal principal,
+                        @RequestParam(required = false) String query,
+                        @PageableDefault(size = 10, sort = "view_count", direction = Sort.Direction.DESC) Pageable pageable,
+                        ModelMap map) {
+        Long loginId = 0L;
+        if (principal != null) {
+            loginId = principal.id();
+        }
+
         Page<SharedResponse> notes = sharedService.noteList(query, pageable).map(SharedResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), notes.getTotalPages());
-        System.out.println(barNumbers);
-        model.addAttribute("paginationBarNumbers", barNumbers);
-        model.addAttribute("notes", notes);
+        NotificationResponse notificationResponse = sharedService.getNotification(loginId);
+
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("notes", notes);
+        map.addAttribute("notificationResponse", notificationResponse);
         return "notes/index";
     }
 
     // 노트 상세 페이지
     @GetMapping("/detail/{noteId}")
-    public String note(@PathVariable Long noteId, ModelMap map, @AuthenticationPrincipal NotePrincipal principal) {
+    public String note(@PathVariable Long noteId,
+                       ModelMap map,
+                       @AuthenticationPrincipal NotePrincipal principal) {
         Long loginId = 0L;
         if (principal != null) {
             loginId = principal.id();
         }
+
         SharedWithCommentsResponse sharedNote = sharedService.getSharedWithComments(noteId, loginId);
         NotificationResponse notificationResponse = sharedService.getNotification(loginId);
-        System.out.println();
+
         map.addAttribute("sharedNote", sharedNote);
         map.addAttribute("sharedNoteComments", sharedNote.sharedNoteCommentResponses());
         map.addAttribute("notificationResponse", notificationResponse);
@@ -84,7 +93,6 @@ public class sharedController {
     @GetMapping("/recommend")
     public ResponseEntity<List<String>> recommendedQuery(@RequestParam("query") String query) {
         List<String> tags = sharedService.recommendedQuery(query);
-        System.out.println(tags);
         return ResponseEntity.status(HttpStatus.OK).body(tags);
     }
 

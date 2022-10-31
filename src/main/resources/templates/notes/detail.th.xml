@@ -20,7 +20,7 @@
         </attr>
         <attr sel="#note-nickname">
             <attr sel="a" th:text="${sharedNote.noteResponse.nickname}" th:href="@{'/users/' + ${sharedNote.noteResponse.userId}}" />
-            <attr sel="span" th:text="'  3명'" />
+            <attr sel="span" th:text="${sharedNote.noteResponse.followSize}+'명'" />
         </attr>
         <attr sel="#note-content" th:utext="${sharedNote.noteResponse.content}" />
 

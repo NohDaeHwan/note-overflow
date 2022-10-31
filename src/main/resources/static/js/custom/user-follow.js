@@ -1,16 +1,16 @@
-function likeAdd(noteId) {
+function followAdd(userId) {
 
     $.ajax({
         type: "POST",
-        url: "/notes/like-note/add/"+noteId,
+        url: "/user-follow/add/"+userId,
         contentType: "application/json; charset=utf-8",
     }).done(function(response) {
         console.log(response);
         if (response == -1) {
             location.href="/login";
         } else {
-            $("#note-liked").html("<button class='btn btn-danger btn-sm' th:onclick='likeDelete("+noteId+")'>좋아요 취소</button>" +
-                "<span> "+response.sharedDto.likeCount+"개</span>");
+            $("#user-follow").html("<span>"+response+"명</span>" +
+                "<button class='btn btn-danger btn-sm' th:onclick='followDelete("+userId+")'>팔로우 취소</button>");
         }
     }).fail(function(error) {
         alert(JSON.stringify(error));
@@ -18,19 +18,19 @@ function likeAdd(noteId) {
 
 }
 
-function likeDelete(noteId) {
+function followDelete(userId) {
 
     $.ajax({
         type: "POST",
-        url: "/notes/like-note/delete/"+noteId,
+        url: "/user-follow/delete/"+userId,
         contentType: "application/json; charset=utf-8",
     }).done(function(response) {
         console.log(response);
         if (response == -1) {
             location.href="/login";
         } else {
-            $("#note-liked").html("<button class='btn btn-warning btn-sm' th:onclick='likeAdd("+noteId+")'>좋아요</button>" +
-                "<span> "+response+"개</span>");
+            $("#user-follow").html("<span>"+response+"명</span>" +
+                "<button class='btn btn-warning btn-sm' th:onclick='followAdd("+userId+")'>팔로우</button>");
         }
     }).fail(function(error) {
         alert(JSON.stringify(error));
