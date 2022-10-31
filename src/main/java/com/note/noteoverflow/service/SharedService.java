@@ -1,9 +1,6 @@
 package com.note.noteoverflow.service;
 
-import com.note.noteoverflow.domain.LikeNote;
-import com.note.noteoverflow.domain.Note;
-import com.note.noteoverflow.domain.Shared;
-import com.note.noteoverflow.domain.UserAccount;
+import com.note.noteoverflow.domain.*;
 import com.note.noteoverflow.dto.NotificationDto;
 import com.note.noteoverflow.dto.SharedDto;
 import com.note.noteoverflow.dto.SharedWithCommentsDto;
@@ -39,6 +36,8 @@ public class SharedService {
 
     private final NotificationRepository notificationRepository;
 
+    private final FollowRepository followRepository;
+
     @Transactional(readOnly = true)
     public NotificationResponse getNotification(Long loginId) {
         List<NotificationDto> notificationDtos = notificationRepository.findByUserAccountIdAndReading(loginId, false)
@@ -64,13 +63,20 @@ public class SharedService {
     public SharedWithCommentsResponse getSharedWithComments(Long noteId, Long loginId) {
         SharedWithCommentsDto sharedWithCommentsDto = SharedWithCommentsDto.from(sharedRepository.findByNote_Id(noteId).get());
         LikeNote likeNote = likeNoteRepository.findBySharedNoteIdAndLikeId(sharedWithCommentsDto.id(), loginId);
+        Follow follow = followRepository.findByUserAccountIdAndFollowId(sharedWithCommentsDto.noteDto().userAccountDto().id(), loginId);
         Boolean likeCheck;
+        Boolean followCheck;
         if (likeNote == null) {
             likeCheck = false;
         } else {
             likeCheck = true;
         }
-        return SharedWithCommentsResponse.of(sharedWithCommentsDto, likeCheck);
+        if (follow == null) {
+            followCheck = false;
+        } else {
+            followCheck = true;
+        }
+        return SharedWithCommentsResponse.of(sharedWithCommentsDto, likeCheck, followCheck);
     }
 
     @Transactional(readOnly = true)

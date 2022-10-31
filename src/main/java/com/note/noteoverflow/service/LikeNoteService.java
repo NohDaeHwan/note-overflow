@@ -29,16 +29,10 @@ public class LikeNoteService {
 
     public Integer likeNoteDelete(Long noteId, UserAccountDto toDto) {
         Shared shared = sharedRepository.findByNote_Id(noteId).get(); // 좋아요을 누른 노트
-        int likeCount = shared.getLikeCount()-1;
         shared.setLikeCount(shared.getLikeCount()-1);
         sharedRepository.save(shared);
         Integer result = likeNoteRepository.deleteBySharedNoteIdAndLikeId(shared.getId(), toDto.id());
-        if (result.intValue() == 1) {
-            System.out.println("작동");
-            return likeCount;
-        } else {
-            return -2;
-        }
+        return shared.getLikeCount();
     }
 
 }
