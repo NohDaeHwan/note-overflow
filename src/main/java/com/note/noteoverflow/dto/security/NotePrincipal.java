@@ -1,13 +1,15 @@
 package com.note.noteoverflow.dto.security;
 
+import com.note.noteoverflow.domain.UserAccount;
 import com.note.noteoverflow.domain.type.RoleType;
+import com.note.noteoverflow.dto.FollowDto;
 import com.note.noteoverflow.dto.UserAccountDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public record NotePrincipal(
@@ -17,10 +19,16 @@ public record NotePrincipal(
         String nickname,
         String userPhone,
         RoleType userRole,
-        int sharedCount
+        int sharedCount,
+        LocalDateTime createdAt,
+        String createdBy,
+        LocalDateTime modifiedAt,
+        String modifiedBy
 ) implements UserDetails {
 
-    public static NotePrincipal of(Long id, String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
+    public static NotePrincipal of(Long id, String userEmail, String userPassword, String nickname, String userPhone,
+                                   RoleType userRole, int sharedCount, LocalDateTime createdAt, String createdBy,
+                                   LocalDateTime modifiedAt, String modifiedBy) {
         return new NotePrincipal(
                 id,
                 userEmail,
@@ -28,19 +36,27 @@ public record NotePrincipal(
                 nickname,
                 userPhone,
                 userRole,
-                sharedCount
+                sharedCount,
+                createdAt,
+                createdBy,
+                modifiedAt,
+                modifiedBy
         );
     }
 
-    public static NotePrincipal from(UserAccountDto dto) {
+    public static NotePrincipal from(UserAccount entity) {
         return NotePrincipal.of(
-                dto.id(),
-                dto.userEmail(),
-                dto.userPassword(),
-                dto.nickname(),
-                dto.userPhone(),
-                dto.userRole(),
-                dto.sharedCount()
+                entity.getId(),
+                entity.getUserEmail(),
+                entity.getUserPassword(),
+                entity.getNickname(),
+                entity.getUserPhone(),
+                entity.getUserRole(),
+                entity.getSharedCount(),
+                entity.getCreatedAt(),
+                entity.getCreatedBy(),
+                entity.getModifiedAt(),
+                entity.getModifiedBy()
         );
     }
 
@@ -52,7 +68,11 @@ public record NotePrincipal(
                 nickname,
                 userPhone,
                 userRole,
-                sharedCount
+                sharedCount,
+                createdAt,
+                createdBy,
+                modifiedAt,
+                modifiedBy
         );
     }
 

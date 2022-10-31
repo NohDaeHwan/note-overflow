@@ -12,18 +12,20 @@ public record SharedWithCommentsResponse(
         int viewCount,
         int likeCount,
         boolean likeCheck,
+        boolean followCheck,
         LocalDateTime createdAt,
         NoteResponse noteResponse,
         Set<SharedNoteCommentResponse> sharedNoteCommentResponses,
         Set<LikeNoteResponse> likeNoteResponses
 ) {
 
-    public static SharedWithCommentsResponse of(SharedWithCommentsDto sharedWithCommentsDto, Boolean likeCheck) {
+    public static SharedWithCommentsResponse of(SharedWithCommentsDto sharedWithCommentsDto, boolean likeCheck, boolean followCheck) {
         return new SharedWithCommentsResponse(
                 sharedWithCommentsDto.id(),
                 sharedWithCommentsDto.viewCount(),
                 sharedWithCommentsDto.likeCount(),
                 likeCheck,
+                followCheck,
                 sharedWithCommentsDto.createdAt(),
                 NoteResponse.from(sharedWithCommentsDto.noteDto()),
                 sharedWithCommentsDto.sharedNoteCommentDtos().stream()

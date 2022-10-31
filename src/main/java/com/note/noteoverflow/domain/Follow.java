@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @ToString
@@ -32,5 +33,30 @@ public class Follow extends AuditingFields {
     @Setter
     @Column(name="follow_nickname", nullable = false, length = 100)
     private String followNickname; // 팔로우 닉네임
+
+    protected Follow() {}
+
+    private Follow(UserAccount userAccount, Long followId, String followUserEmail, String followNickname) {
+        this.userAccount = userAccount;
+        this.followId = followId;
+        this.followUserEmail = followUserEmail;
+        this.followNickname = followNickname;
+    }
+
+    public static Follow of(UserAccount userAccount, Long followId, String followUserEmail, String followNickname) {
+        return new Follow(userAccount, followId, followUserEmail, followNickname);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Follow follow)) return false;
+        return id != null && id.equals(follow.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }
