@@ -84,34 +84,36 @@
                     <h6 class="dropdown-header">
                         알림
                     </h6>
-                    <a class="dropdown-item d-flex align-items-center" th:each="notification : ${notificationResponse.notificationDtos}"
-                            th:href="@{/notes/detail/{noteId}(noteId=${notification.noteId})}">
-                        <div class="mr-3">
-                            <div class="icon-circle bg-warning">
-                                <img class="img-profile rounded-circle"
-                                     src="/assets/img/undraw_profile.svg">
+                    <th:block th:each="notification : ${notificationResponse.notificationDtos}">
+                        <a class="dropdown-item d-flex align-items-center" th:if="${notification.noteId != null}"
+                           th:href="@{/notes/detail/{noteId}(noteId=${notification.noteId})}">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-warning">
+                                    <img class="img-profile rounded-circle"
+                                         src="/assets/img/undraw_profile.svg">
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="small text-gray-500">December 12, 2019</div>
-                            <span class="font-weight-bold" th:href="@{/user/{userId}(userId=${notification.userId})}"
-                                th:text="${notification.nickname}">eoghks5953</span>
-                            <span th:text="${notification.content}">님이 회원님을 팔로우하기 시작했습니다.</span>
-                        </div>
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="mr-3">
-                            <div class="icon-circle bg-warning">
-                                <img class="img-profile rounded-circle"
-                                     src="/assets/img/undraw_profile.svg">
+                            <div >
+                                <div class="small text-gray-500" th:text="${notification.timeResult}">December 12, 2019</div>
+                                <span class="font-weight-bold" th:text="${notification.nickname}">eoghks5953</span>
+                                <span th:text="${notification.content}">님이 회원님을 팔로우하기 시작했습니다.</span>
                             </div>
-                        </div>
-                        <div>
-                            <div class="small text-gray-500">December 7, 2019</div>
-                            <span class="font-weight-bold">eoghks5953</span>
-                            님이 회원님의 게시물에 좋아요를 눌렀습니다.
-                        </div>
-                    </a>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center" th:unless="${notification.noteId != null}"
+                           th:href="@{/users/{userId}(userId=${notification.userId})}">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-warning">
+                                    <img class="img-profile rounded-circle"
+                                         src="/assets/img/undraw_profile.svg">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500" th:text="${notification.timeResult}">December 12, 2019</div>
+                                <span class="font-weight-bold" th:text="${notification.nickname}">eoghks5953</span>
+                                <span th:text="${notification.content}">님이 회원님을 팔로우하기 시작했습니다.</span>
+                            </div>
+                        </a>
+                    </th:block>
                     <a class="dropdown-item d-flex align-items-center" href="#">
                         <div class="mr-3">
                             <div class="icon-circle bg-warning">
