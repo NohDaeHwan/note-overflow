@@ -12,7 +12,8 @@ let index = {
 			sCategory:$("#sCategory").val(),
 			content:$("textarea#main-content").val(),
 			noteTagsRequests: [{tag:$("#tag1").val()}, {tag:$("#tag2").val()}, {tag:$("#tag3").val()},
-				{tag:$("#tag4").val()}, {tag:$("#tag5").val()}]
+				{tag:$("#tag4").val()}, {tag:$("#tag5").val()}],
+			stateId: 2
 		}
 		
 		$.ajax({
@@ -48,15 +49,15 @@ function note(noteId, userId) {
 		$("#note-main").text("");
 		if (userId == principal) {		
 			if(response.sharing == false) {
-				$("#note-main").html("<button class='btn btn-warning btn-sm mr-4' onclick='shared("+noteId+","+ userId+")'>공유하기</button>"
-					+ "<button class='btn btn-warning btn-sm' onclick='noteUpdate("+noteId+")'>수정하기</button><br/>");
+				$("#note-main").html("<br><br><br><div class='d-flex justify-content-center'><button class='btn btn-warning btn-sm mr-4' onclick='shared("+noteId+","+ userId+")'>공유하기</button>"
+					+ "<button class='btn btn-warning btn-sm' onclick='noteUpdate("+noteId+")'>수정하기</button></div><br><br><br>");
 			} else {
-				$("#note-main").html("<button class='btn btn-warning btn-sm mr-4' onclick='sharedCancel("+noteId+","+ userId+")'>공유취소</button>"
+				$("#note-main").html("<br><br><br><div class='d-flex justify-content-center'><button class='btn btn-warning btn-sm mr-4' onclick='sharedCancel("+noteId+","+ userId+")'>공유취소</button>"
 				+ "<button class='btn btn-warning btn-sm' onclick='noteUpdate("+noteId+")'>수정하기</button>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "<a class='btn btn-warning btn-sm' href='/notes/detail/"+noteId+"'>자세히보기</a><br/>");
+				+ "<a class='btn btn-warning btn-sm' href='/notes/detail/"+noteId+"'>자세히보기</a></div><br><br><br>");
 			}
 		} else {
-			$("#note-main").html("<a class='btn btn-warning btn-sm' href='/notes/detail/"+noteId+"'>자세히보기</a><br/>");
+			$("#note-main").html("<br><br><br><a class='btn btn-warning btn-sm d-flex justify-content-center' href='/notes/detail/"+noteId+"'>자세히보기</a><br><br><br>");
 		}
 		
 		$("#note-main").append(response.content);

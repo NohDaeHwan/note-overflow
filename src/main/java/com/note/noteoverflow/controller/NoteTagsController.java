@@ -44,7 +44,9 @@ public class NoteTagsController {
         Page<TagListDto> tagList = noteTagsService.selectTagList(tag, pageable);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), tagList.getTotalPages());
         NotificationResponse notificationResponse = sharedService.getNotification(loginId);
+        System.out.println(tagList.getContent());
 
+        map.addAttribute("page", "tags");
         map.addAttribute("paginationBarNumbers", barNumbers);
         map.addAttribute("tags", tagList);
         map.addAttribute("notificationResponse", notificationResponse);
