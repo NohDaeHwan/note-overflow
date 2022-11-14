@@ -29,6 +29,10 @@
             <attr sel="#comment-textbox" th:name="content" />
         </attr>
 
+        <attr sel="#related-note" th:each="note : ${relatedNotes}">
+            <attr sel="a" th:href="@{|/notes/detail/${note.id}|}" th:text="${note.title}" />
+        </attr>
+
         <attr sel="#note-comments" th:remove="all-but-first">
             <attr sel="div[0]" th:each="sharedNoteComment : ${sharedNoteComments}"  >
                 <attr sel="#comment-nickname" th:text="${sharedNoteComment.nickname}" />

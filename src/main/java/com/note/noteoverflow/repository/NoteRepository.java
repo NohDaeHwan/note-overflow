@@ -2,6 +2,7 @@ package com.note.noteoverflow.repository;
 
 import com.note.noteoverflow.domain.Note;
 import com.note.noteoverflow.domain.QNote;
+import com.note.noteoverflow.dto.NoteCategoryDto;
 import com.note.noteoverflow.repository.querydsl.NoteRepositoryCustom;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
@@ -43,4 +44,6 @@ public interface NoteRepository extends
     @Query(nativeQuery = true, value = "SELECT * FROM note WHERE user_account_id = :userId AND sharing = :sharing")
     List<Note> findPrivateNote(@Param("userId") Long userId, @Param("sharing") boolean sharing);
 
+    @Query(value = "SELECT DISTINCT new com.note.noteoverflow.dto.NoteCategoryDto(n.mCategory) FROM Note n WHERE n.userAccount.id = :userId AND n.sharing = :sharing")
+    List<NoteCategoryDto> findByUserAccountId(@Param("userId") Long userId, @Param("sharing") boolean sharing);
 }

@@ -1,4 +1,19 @@
 <?xml version="1.0"?>
 <thlogic>
     <attr sel="#mainNav" th:replace="layout/mainheader :: #mainNav" />
+
+    <attr sel=".page-section" th:object="${sharedNotes}">
+        <attr sel="div#update-note" th:remove="all-but-first">
+            <attr sel="div[0]" th:each="sharedNote : ${sharedNotes}">
+                <attr sel="a#note-title" th:text="${sharedNote.title}" th:href="@{|/notes/detail/${sharedNote.noteId}|}" />
+                <attr sel="div#note-tags" th:remove="all-but-first">
+                    <attr sel="div[0]" th:each="tag : ${sharedNote.noteTagsResponses}">
+                        <attr sel="a" th:text="${tag.tag}" th:href="@{/notes(query=${tag.tag})}" />
+                    </attr>
+                </attr>
+                <attr sel="a#note-user" th:text="${sharedNote.nickname}" th:href="@{|/users/${sharedNote.userId}|}" />
+                <attr sel="a#note-created" th:text="${sharedNote.createdAt}" />
+            </attr>
+        </attr>
+    </attr>
 </thlogic>

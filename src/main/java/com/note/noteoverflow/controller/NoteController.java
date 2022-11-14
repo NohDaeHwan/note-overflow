@@ -1,5 +1,6 @@
 package com.note.noteoverflow.controller;
 
+import com.note.noteoverflow.dto.NoteCategoryDto;
 import com.note.noteoverflow.dto.request.NoteRequest;
 import com.note.noteoverflow.dto.response.NotificationResponse;
 import com.note.noteoverflow.dto.security.NotePrincipal;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 public class NoteController {
@@ -24,14 +27,11 @@ public class NoteController {
     @GetMapping("/notes/create")
     public String noteCreate(@AuthenticationPrincipal NotePrincipal principal,
                              ModelMap map) {
-        Long loginId = 0L;
-        if (principal != null) {
-            loginId = principal.id();
-        }
-
-        NotificationResponse notificationResponse = sharedService.getNotification(loginId);
+        NotificationResponse notificationResponse = sharedService.getNotification(principal.id());
+        List<NoteCategoryDto> categoryList = noteService.getCateogryList(principal.id());
 
         map.addAttribute("notificationResponse", notificationResponse);
+        map.addAttribute("categoryList", categoryList);
         return "notes/create";
     }
 

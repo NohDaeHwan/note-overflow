@@ -1,6 +1,5 @@
 package com.note.noteoverflow.config;
 
-import com.note.noteoverflow.dto.UserAccountDto;
 import com.note.noteoverflow.dto.security.NotePrincipal;
 import com.note.noteoverflow.repository.UserAccountRepository;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -20,7 +19,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable().authorizeHttpRequests(auth -> auth
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/notes/create").authenticated()
+                .antMatchers("/notes/create", "/notes/detail/**").authenticated()
                 .anyRequest().permitAll()
                 )
                 .formLogin()

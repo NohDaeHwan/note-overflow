@@ -51,6 +51,7 @@ public class Note extends AuditingFields {
 	private UserAccount userAccount; // 회원 (ID)
 
 	@ToString.Exclude
+	@OrderBy(value = "createdAt desc")
 	@OneToMany(mappedBy = "note", cascade = CascadeType.ALL)
 	private final Set<NoteTags> noteTags = new LinkedHashSet<>(); // 태그 (ID)
 

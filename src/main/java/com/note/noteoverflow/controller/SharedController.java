@@ -1,6 +1,7 @@
 package com.note.noteoverflow.controller;
 
 import com.note.noteoverflow.dto.LikeNoteDto;
+import com.note.noteoverflow.dto.NoteIdDto;
 import com.note.noteoverflow.dto.response.NotificationResponse;
 import com.note.noteoverflow.dto.response.SharedResponse;
 import com.note.noteoverflow.dto.response.SharedWithCommentsResponse;
@@ -25,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/notes")
-public class sharedController {
+public class SharedController {
 
     private final SharedService sharedService;
 
@@ -47,6 +48,7 @@ public class sharedController {
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), notes.getTotalPages());
         NotificationResponse notificationResponse = sharedService.getNotification(loginId);
 
+        map.addAttribute("page", "notes");
         map.addAttribute("paginationBarNumbers", barNumbers);
         map.addAttribute("notes", notes);
         map.addAttribute("notificationResponse", notificationResponse);
@@ -65,10 +67,13 @@ public class sharedController {
 
         SharedWithCommentsResponse sharedNote = sharedService.getSharedWithComments(noteId, loginId);
         NotificationResponse notificationResponse = sharedService.getNotification(loginId);
+        List<NoteIdDto> relatedNotes = sharedService.getRelatedNote(noteId);
 
+        map.addAttribute("page", "notes");
         map.addAttribute("sharedNote", sharedNote);
         map.addAttribute("sharedNoteComments", sharedNote.sharedNoteCommentResponses());
         map.addAttribute("notificationResponse", notificationResponse);
+        map.addAttribute("relatedNotes", relatedNotes);
         return "notes/detail";
     }
 

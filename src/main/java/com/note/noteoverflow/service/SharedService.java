@@ -1,11 +1,9 @@
 package com.note.noteoverflow.service;
 
 import com.note.noteoverflow.domain.*;
-import com.note.noteoverflow.dto.NotificationDto;
-import com.note.noteoverflow.dto.SharedDto;
-import com.note.noteoverflow.dto.SharedWithCommentsDto;
-import com.note.noteoverflow.dto.UserAccountDto;
+import com.note.noteoverflow.dto.*;
 import com.note.noteoverflow.dto.response.NotificationResponse;
+import com.note.noteoverflow.dto.response.SharedResponse;
 import com.note.noteoverflow.dto.response.SharedWithCommentsResponse;
 import com.note.noteoverflow.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -59,11 +57,19 @@ public class SharedService {
         return sharedRepository.findByNote_IdIn(sharedNoteListIds, pageable).map(SharedDto::from);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public SharedWithCommentsResponse getSharedWithComments(Long noteId, Long loginId) {
-        SharedWithCommentsDto sharedWithCommentsDto = SharedWithCommentsDto.from(sharedRepository.findByNote_Id(noteId).get());
-        LikeNote likeNote = likeNoteRepository.findBySharedNoteIdAndLikeId(sharedWithCommentsDto.id(), loginId);
-        Follow follow = followRepository.findByUserAccountIdAndFollowId(sharedWithCommentsDto.noteDto().userAccountDto().id(), loginId);
+        Shared shared = sharedRepository.findByNote_Id(noteId).get();
+        shared.setViewCount(shared.getViewCount()+1);
+        sharedRepository.save(shared);
+
+        LikeNote likeNote = null;
+        Follow follow = null;
+        if (!loginId.equals(0L)) {
+            likeNote = likeNoteRepository.findBySharedNoteIdAndLikeId(shared.getId(), loginId);
+            follow = followRepository.findByUserAccountIdAndFollowId(shared.getUserAccount().getId(), loginId);
+        }
+
         Boolean likeCheck;
         Boolean followCheck;
         if (likeNote == null) {
@@ -76,7 +82,20 @@ public class SharedService {
         } else {
             followCheck = true;
         }
-        return SharedWithCommentsResponse.of(sharedWithCommentsDto, likeCheck, followCheck);
+        return SharedWithCommentsResponse.of(SharedWithCommentsDto.from(shared), likeCheck, followCheck);
+    }
+
+    // 유저 팔로우 여부(마이페이지)
+    @Transactional(readOnly = true)
+    public boolean getFollow(Long userId, Long loginId) {
+        Follow follow = followRepository.findByUserAccountIdAndFollowId(userId, loginId);
+        Boolean followCheck;
+        if (follow == null) {
+            followCheck = false;
+        } else {
+            followCheck = true;
+        }
+        return followCheck;
     }
 
     @Transactional(readOnly = true)
@@ -102,6 +121,15 @@ public class SharedService {
     public SharedDto noteShared(UserAccountDto dto, Long noteId) {
         Note note = noteRepository.getReferenceById(noteId);
         UserAccount userAccount = userAccountRepository.getReferenceById(dto.id());
+        List<Follow> followList = followRepository.findByUserAccountId(dto.id());
+
+        if (followList != null) {
+            for (Follow follow : followList) {
+                UserAccount user = userAccountRepository.findById(follow.getFollowId()).get();
+                notificationRepository.save(Notification.of(user, noteId, false, userAccount.getId(),
+                        userAccount.getUserImage(), userAccount.getNickname(), "님이 게시물을 올렸습니다."));
+            }
+        }
 
         note.setSharing(true);
         userAccount.setSharedCount(userAccount.getSharedCount()+1);
@@ -134,4 +162,20 @@ public class SharedService {
         return noteTagsRepository.findAllTags(noteIds, query);
     }
 
+    public List<SharedDto> getIndexShared() {
+        return sharedRepository.fidByCreatedAt().stream()
+                .map(SharedDto::from).collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<NoteIdDto> getRelatedNote(Long noteId) {
+        Shared shared = sharedRepository.findByNote_Id(noteId).get();
+        List<String> tags = new ArrayList<>();
+        for (NoteTags noteTag : shared.getNote().getNoteTags()) {
+            tags.add(noteTag.getTag());
+        }
+
+        List<NoteIdDto> dtos = noteTagsRepository.findByTag(tags, noteId);
+        System.out.println(dtos);
+        return dtos;
+    }
 }

@@ -50,6 +50,10 @@ public class UserAccount extends AuditingFields {
 	@Column(name="shared_count")
 	private int sharedCount; // 노트 공유 수
 
+	@Setter
+	@Column(name = "user_image")
+	private String userImage;
+
 	@ToString.Exclude
 	@OrderBy("createdAt DESC")
 	@OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
@@ -57,17 +61,18 @@ public class UserAccount extends AuditingFields {
 
 	protected UserAccount() {}
 
-	private UserAccount(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
+	private UserAccount(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount, String userImage) {
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 		this.nickname = nickname;
 		this.userPhone = userPhone;
 		this.userRole = userRole;
 		this.sharedCount = sharedCount;
+		this.userImage = userImage;
 	}
 
-	public static UserAccount of(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount) {
-		return new UserAccount(userEmail, userPassword, nickname, userPhone, userRole, sharedCount);
+	public static UserAccount of(String userEmail, String userPassword, String nickname, String userPhone, RoleType userRole, int sharedCount, String userImage) {
+		return new UserAccount(userEmail, userPassword, nickname, userPhone, userRole, sharedCount, userImage);
 	}
 
 	@Override

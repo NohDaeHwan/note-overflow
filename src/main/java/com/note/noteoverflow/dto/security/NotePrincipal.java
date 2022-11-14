@@ -20,6 +20,7 @@ public record NotePrincipal(
         String userPhone,
         RoleType userRole,
         int sharedCount,
+        String userImage,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
@@ -27,7 +28,7 @@ public record NotePrincipal(
 ) implements UserDetails {
 
     public static NotePrincipal of(Long id, String userEmail, String userPassword, String nickname, String userPhone,
-                                   RoleType userRole, int sharedCount, LocalDateTime createdAt, String createdBy,
+                                   RoleType userRole, int sharedCount, String userImage, LocalDateTime createdAt, String createdBy,
                                    LocalDateTime modifiedAt, String modifiedBy) {
         return new NotePrincipal(
                 id,
@@ -37,6 +38,7 @@ public record NotePrincipal(
                 userPhone,
                 userRole,
                 sharedCount,
+                userImage,
                 createdAt,
                 createdBy,
                 modifiedAt,
@@ -53,6 +55,7 @@ public record NotePrincipal(
                 entity.getUserPhone(),
                 entity.getUserRole(),
                 entity.getSharedCount(),
+                entity.getUserImage(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
@@ -69,6 +72,7 @@ public record NotePrincipal(
                 userPhone,
                 userRole,
                 sharedCount,
+                userImage,
                 createdAt,
                 createdBy,
                 modifiedAt,

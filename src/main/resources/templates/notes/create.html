@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -55,7 +55,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="mCategory">Major Category : </label>
-                                    <input class="form-control" id="mCategory" name="mCategory" type="text"  placeholder="Major Category Here" required>
+                                    <input class="form-control" list="mCategoryList" id="mCategory" name="mCategory"
+                                           placeholder="Major Category Here" required>
+                                    <datalist class="pre-scrollable" id="mCategoryList">
+                                        <option>
+                                    </datalist>
+                                    <!--<input class="form-control" id="mCategory" name="mCategory" type="text"  placeholder="Major Category Here" required>-->
                                 </div>
                                 <div class="form-group">
                                     <label for="sCategory">Sub Category : </label>

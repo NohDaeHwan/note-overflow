@@ -46,7 +46,7 @@ public record NoteResponse(
                 dto.userAccountDto().userEmail(),
                 dto.userAccountDto().id(),
                 nickname,
-                dto.userAccountDto().followDtos().size(),
+                dto.userAccountDto().followCount(),
                 dto.noteTagsDtos().stream()
                         .map(NoteTagsResponse::from)
                         .collect(Collectors.toUnmodifiableList())

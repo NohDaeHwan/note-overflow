@@ -3,7 +3,7 @@ package com.note.noteoverflow.service;
 import com.note.noteoverflow.domain.Note;
 import com.note.noteoverflow.domain.NoteTags;
 import com.note.noteoverflow.domain.UserAccount;
-import com.note.noteoverflow.dto.NoteDto;
+import com.note.noteoverflow.dto.NoteCategoryDto;
 import com.note.noteoverflow.dto.UserAccountDto;
 import com.note.noteoverflow.dto.request.NoteRequest;
 import com.note.noteoverflow.repository.NoteRepository;
@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,4 +50,7 @@ public class NoteService {
         return -1;
     }
 
+    public List<NoteCategoryDto> getCateogryList(Long userId) {
+        return noteRepository.findByUserAccountId(userId, true);
+    }
 }

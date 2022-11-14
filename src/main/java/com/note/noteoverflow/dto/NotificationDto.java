@@ -11,6 +11,7 @@ public record NotificationDto(
         Long noteId,
         boolean reading,
         Long userId,
+        String userImage,
         String nickname,
         String content,
         String timeResult,
@@ -19,10 +20,10 @@ public record NotificationDto(
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
-    public static NotificationDto of(Long id, Long userAccountId, Long noteId, boolean reading, Long userId,
+    public static NotificationDto of(Long id, Long userAccountId, Long noteId, boolean reading, Long userId, String userImage,
                            String nickname, String content, String timeResult, LocalDateTime createdAt, String createdBy,
-                           LocalDateTime modifiedAt, String modifiedBy, LocalDateTime date) {
-        return new NotificationDto(id, userAccountId, noteId, reading, userId, nickname,
+                           LocalDateTime modifiedAt, String modifiedBy) {
+        return new NotificationDto(id, userAccountId, noteId, reading, userId, userImage, nickname,
                 content, timeResult, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
@@ -50,16 +51,16 @@ public record NotificationDto(
         } else if (hour >= 1) {
             result = minute + "분전";
         } else {
-            result = minute + "초전";
+            result = second + "초전";
         }
 
-        System.out.println(result);
         return new NotificationDto(
                 entity.getId(),
                 entity.getUserAccount().getId(),
                 entity.getNoteId(),
                 entity.isReading(),
                 entity.getUserId(),
+                entity.getUserImage(),
                 entity.getNickname(),
                 entity.getContent(),
                 result,
