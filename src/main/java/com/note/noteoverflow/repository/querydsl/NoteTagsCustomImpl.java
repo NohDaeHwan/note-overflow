@@ -54,7 +54,7 @@ public class NoteTagsCustomImpl extends QuerydslRepositorySupport implements Not
         QNoteTags noteTags = QNoteTags.noteTags;
 
         List<TagListDto> content = from(noteTags)
-                .select(Projections.fields(TagListDto.class, noteTags.tag, noteTags.count().as("tagCount")))
+                .select(Projections.fields(TagListDto.class, noteTags.tag, noteTags.tag.count().as("tagCount")))
                 .where(noteTags.tag.like("%"+tag+"%"))
                 .groupBy(noteTags.tag)
                 .offset(pageable.getOffset())
@@ -62,7 +62,7 @@ public class NoteTagsCustomImpl extends QuerydslRepositorySupport implements Not
                 .fetch();
 
         JPQLQuery<TagListDto> countQuery = from(noteTags)
-                .select(Projections.fields(TagListDto.class, noteTags.tag, noteTags.count().as("tagCount")))
+                .select(Projections.fields(TagListDto.class, noteTags.tag, noteTags.tag.count().as("tagCount")))
                 .where(noteTags.tag.like("%"+tag+"%"))
                 .groupBy(noteTags.tag);
 

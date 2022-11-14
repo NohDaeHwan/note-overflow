@@ -7,11 +7,12 @@ public record UserAccountsResponse(
         String userEmail,
         String nickname,
         String userPhone,
-        int sharedCount
+        int sharedCount,
+        String userImage
 ) {
 
-    public static UserAccountsResponse of(Long id, String userEmail, String nickname, String userPhone, int sharedCount) {
-        return new UserAccountsResponse(id, userEmail, nickname, userPhone, sharedCount);
+    public static UserAccountsResponse of(Long id, String userEmail, String nickname, String userPhone, int sharedCount, String userImage) {
+        return new UserAccountsResponse(id, userEmail, nickname, userPhone, sharedCount, userImage);
     }
 
     public static UserAccountsResponse from(UserAccountDto dto) {
@@ -20,7 +21,8 @@ public record UserAccountsResponse(
                 dto.userEmail(),
                 dto.nickname(),
                 dto.userPhone(),
-                dto.sharedCount()
+                dto.sharedCount(),
+                dto.userImage()
         );
     }
 

@@ -38,6 +38,10 @@ public class Notification extends AuditingFields {
     private Long userId; // 아이디
 
     @Setter
+    @Column(name="user_image")
+    private String userImage; // 내용
+
+    @Setter
     @Column(length = 100, nullable = false)
     private String nickname; // 이름
 
@@ -47,17 +51,18 @@ public class Notification extends AuditingFields {
 
     protected Notification() {}
 
-    private Notification(UserAccount userAccount, Long noteId, boolean reading, Long userId, String nickname, String content) {
+    private Notification(UserAccount userAccount, Long noteId, boolean reading, Long userId, String userImage, String nickname, String content) {
         this.userAccount = userAccount;
         this.noteId = noteId;
         this.reading = reading;
         this.userId = userId;
+        this.userImage = userImage;
         this.nickname = nickname;
         this.content = content;
     }
 
-    public static Notification of(UserAccount userAccount, Long noteId, boolean reading, Long userId, String nickname, String content) {
-        return new Notification(userAccount, noteId, reading, userId, nickname, content);
+    public static Notification of(UserAccount userAccount, Long noteId, boolean reading, Long userId, String userImage, String nickname, String content) {
+        return new Notification(userAccount, noteId, reading, userId, userImage, nickname, content);
     }
 
     @Override

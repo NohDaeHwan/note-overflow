@@ -1,9 +1,14 @@
 package com.note.noteoverflow.service;
 
+import com.note.noteoverflow.dto.FollowDto;
+import com.note.noteoverflow.dto.FollowingDto;
 import com.note.noteoverflow.repository.FollowRepository;
+import com.note.noteoverflow.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional
@@ -12,8 +17,12 @@ public class FollowService {
 
     private final FollowRepository followRepository;
 
-    public int followingList(Long userId) {
-        int following = followRepository.findByFollowId(userId).size();
-        return following;
+    private final UserAccountRepository userAccountRepository;
+
+    @Transactional
+    public List<FollowingDto> followingList(Long userId) {
+        List<Long> followingId = followRepository.findByFollowId(userId);
+        return userAccountRepository.findByFollowId(followingId);
     }
+
 }

@@ -5,7 +5,6 @@ function followAdd(userId) {
         url: "/user-follow/add/"+userId,
         contentType: "application/json; charset=utf-8",
     }).done(function(response) {
-        console.log(response);
         if (response == -1) {
             location.href="/login";
         } else {
@@ -25,7 +24,6 @@ function followDelete(userId) {
         url: "/user-follow/delete/"+userId,
         contentType: "application/json; charset=utf-8",
     }).done(function(response) {
-        console.log(response);
         if (response == -1) {
             location.href="/login";
         } else {

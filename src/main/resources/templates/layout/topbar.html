@@ -52,7 +52,7 @@
                 </a>
                 <!-- Dropdown - Messages -->
                 <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                     aria-labelledby="searchDropdown">
+                     aria-labelledby="searchDropdown" style="height: 50vh;">
                     <form class="form-inline mr-auto w-100 navbar-search">
                         <div class="input-group">
                             <!-- 검색어 -->
@@ -79,7 +79,7 @@
                     <span class="badge badge-danger badge-counter" th:text="${notificationResponse.notificationReading}">3+</span>
                 </a>
                 <!-- Dropdown - Alerts -->
-                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in overflow-auto"
                      aria-labelledby="alertsDropdown">
                     <h6 class="dropdown-header">
                         알림
@@ -89,8 +89,8 @@
                            th:href="@{/notes/detail/{noteId}(noteId=${notification.noteId})}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-warning">
-                                    <img class="img-profile rounded-circle"
-                                         src="/assets/img/undraw_profile.svg">
+                                    <img class="img-profile rounded-circle" style="width: 50px; height: 50px;"
+                                         th:src="${notification.userImage}">
                                 </div>
                             </div>
                             <div >
@@ -103,8 +103,8 @@
                            th:href="@{/users/{userId}(userId=${notification.userId})}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-warning">
-                                    <img class="img-profile rounded-circle"
-                                         src="/assets/img/undraw_profile.svg">
+                                    <img class="img-profile rounded-circle" style="width: 50px; height: 50px;"
+                                         th:src="${notification.userImage}">
                                 </div>
                             </div>
                             <div>
@@ -114,19 +114,6 @@
                             </div>
                         </a>
                     </th:block>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="mr-3">
-                            <div class="icon-circle bg-warning">
-                                <img class="img-profile rounded-circle"
-                                     src="/assets/img/undraw_profile.svg">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="small text-gray-500">December 2, 2019</div>
-                            <span class="font-weight-bold">eoghks5953</span>
-                            님이 게시물을 올렸습니다.
-                        </div>
-                    </a>
                     <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                 </div>
             </li>
@@ -139,7 +126,7 @@
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small" sec:authentication="name">userName</span>
                     <img class="img-profile rounded-circle"
-                         src="/assets/img/undraw_profile.svg">
+                         th:src="${#authentication.principal.userImage}">
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

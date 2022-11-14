@@ -26,25 +26,15 @@ public class Follow extends AuditingFields {
     @Column(name = "follow_id", nullable = false)
     private Long followId; // 팔로우 ID
 
-    @Setter
-    @Column(name="follow_user_email", nullable = false, length = 100)
-    private String followUserEmail; // 팔로우 이메일
-
-    @Setter
-    @Column(name="follow_nickname", nullable = false, length = 100)
-    private String followNickname; // 팔로우 닉네임
-
     protected Follow() {}
 
-    private Follow(UserAccount userAccount, Long followId, String followUserEmail, String followNickname) {
+    private Follow(UserAccount userAccount, Long followId) {
         this.userAccount = userAccount;
         this.followId = followId;
-        this.followUserEmail = followUserEmail;
-        this.followNickname = followNickname;
     }
 
-    public static Follow of(UserAccount userAccount, Long followId, String followUserEmail, String followNickname) {
-        return new Follow(userAccount, followId, followUserEmail, followNickname);
+    public static Follow of(UserAccount userAccount, Long followId) {
+        return new Follow(userAccount, followId);
     }
 
     @Override

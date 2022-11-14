@@ -1,7 +1,9 @@
 package com.note.noteoverflow.repository;
 
+import com.note.noteoverflow.domain.NoteTags;
 import com.note.noteoverflow.domain.QShared;
 import com.note.noteoverflow.domain.Shared;
+import com.note.noteoverflow.dto.SharedDto;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RepositoryRestResource
 public interface SharedRepository extends
@@ -39,5 +42,8 @@ public interface SharedRepository extends
     Page<Shared> findByQueryResult(@Param("noteId") List<Long> noteId, Pageable page);
 
     int deleteByNote_Id(Long noteId);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM shared ORDER BY created_at desc LIMIT 10")
+    List<Shared> fidByCreatedAt();
 
 }

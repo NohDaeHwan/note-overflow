@@ -1,10 +1,14 @@
 package com.note.noteoverflow.service;
 
+import com.note.noteoverflow.component.FileHandler;
 import com.note.noteoverflow.domain.Follow;
 import com.note.noteoverflow.domain.Note;
 import com.note.noteoverflow.domain.UserAccount;
+import com.note.noteoverflow.dto.FollowingDto;
 import com.note.noteoverflow.dto.NoteDto;
 import com.note.noteoverflow.dto.UserAccountDto;
+import com.note.noteoverflow.dto.request.UserEditRequest;
+import com.note.noteoverflow.dto.security.NotePrincipal;
 import com.note.noteoverflow.repository.FollowRepository;
 import com.note.noteoverflow.repository.NoteRepository;
 import com.note.noteoverflow.repository.NotificationRepository;
@@ -30,6 +34,8 @@ public class MypageService {
     private final FollowRepository followRepository;
 
     private final NotificationRepository notificationRepository;
+
+    private final FileHandler fileHandler;
 
     // 마이페이지에 개인 노트 리스트 불러오기
     @Transactional
@@ -70,7 +76,9 @@ public class MypageService {
 
     @Transactional
     public UserAccountDto userDetail(Long userId) {
-        return UserAccountDto.from(userAccountRepository.findById(userId).get());
+        List<Long> followId = followRepository.findByUserAccount(userId);
+        List<FollowingDto> follow = userAccountRepository.findByFollowId(followId);
+        return UserAccountDto.from(userAccountRepository.findById(userId).get(), follow);
     }
 
     // 마이페이지 노트 세부사항
@@ -100,7 +108,7 @@ public class MypageService {
     @Transactional
     public int followAdd(Long userId, UserAccountDto toDto) {
         UserAccount userAccount = userAccountRepository.findById(userId).get();
-        followRepository.save(Follow.of(userAccount, toDto.id(), toDto.userEmail(), toDto.nickname()));
+        followRepository.save(Follow.of(userAccount, toDto.id()));
         return followRepository.findByUserAccountId(userId).size();
     }
 
@@ -109,4 +117,16 @@ public class MypageService {
         followRepository.deleteByUserAccountIdAndFollowId(userId, toDto.id());
         return followRepository.findByUserAccountId(userId).size();
     }
+
+    @Transactional
+    public void userEdit(UserEditRequest request) throws Exception {
+        String filePath = fileHandler.parseFileInfo(request.image());
+        UserAccount userAccount = userAccountRepository.findByUserEmail(request.userEmail()).get();
+        userAccount.setUserPhone(request.userPhone());
+        userAccount.setNickname(request.nickname());
+        userAccount.setUserImage(filePath);
+        UserAccount result = userAccountRepository.save(userAccount);
+        NotePrincipal.from(result);
+    }
+
 }
