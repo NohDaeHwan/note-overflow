@@ -9,7 +9,7 @@ function likeAdd(noteId) {
         if (response == -1) {
             location.href="/login";
         } else {
-            $("#note-liked").html("<button class='btn btn-danger btn-sm' th:onclick='likeDelete("+noteId+")'>좋아요 취소</button>" +
+            $("#note-liked").html("<button class='btn-outline-danger btn-sm mr-3' th:onclick='likeDelete("+noteId+")'>좋아요 취소</button>" +
                 "<span> "+response.sharedDto.likeCount+"개</span>");
         }
     }).fail(function(error) {
@@ -29,7 +29,7 @@ function likeDelete(noteId) {
         if (response == -1) {
             location.href="/login";
         } else {
-            $("#note-liked").html("<button class='btn btn-warning btn-sm' th:onclick='likeAdd("+noteId+")'>좋아요</button>" +
+            $("#note-liked").html("<button class='btn-outline-primary btn-sm mr-3' th:onclick='likeAdd("+noteId+")'>좋아요</button>" +
                 "<span> "+response+"개</span>");
         }
     }).fail(function(error) {

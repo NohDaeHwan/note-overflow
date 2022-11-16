@@ -8,6 +8,7 @@
     <attr sel="#wrapper" th:object="${users}">
         <attr sel="#user-content" th:remove="all-but-first">
             <attr sel="div.user-list" th:each="user : ${users.content}">
+                <attr sel="img.user-image" th:src="${user.userImage}" />
                 <attr sel="h5.user-name">
                     <attr sel="a" th:text="${user.nickname}" th:href="@{/users/{userId}(userId=${user.id})}"/>
                 </attr>
