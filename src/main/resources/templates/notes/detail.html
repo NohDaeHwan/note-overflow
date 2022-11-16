@@ -68,16 +68,17 @@
                             <h6>View 2345</h6>
                         </div>
                         <div id="note-liked" class="col-xl-3 col-md-10 mb-2 d-flex justify-content-center align-items-center">
-                            <button class="btn btn-warning btn-sm" th:if="${sharedNote.likeCheck} == false" th:onclick="'likeAdd('+${sharedNote.noteResponse.id}+')'">좋아요</button>
-                            <button class="btn btn-danger btn-sm" th:unless="${sharedNote.likeCheck} == false" th:onclick="'likeDelete('+${sharedNote.noteResponse.id}+')'">좋아요 취소</button>
+                            <button class="btn-outline-primary btn-sm mr-3" th:if="${sharedNote.likeCheck} == false" th:onclick="'likeAdd('+${sharedNote.noteResponse.id}+')'">좋아요</button>
+                            <button class="btn-outline-danger btn-sm mr-3" th:unless="${sharedNote.likeCheck} == false" th:onclick="'likeDelete('+${sharedNote.noteResponse.id}+')'">좋아요 취소</button>
                             <span>Liked 4356</span>
                         </div>
                         <div id="note-nickname" class="col-xl-3 col-md-10 mb-2 d-flex justify-content-center align-items-center">
-                            <a href="#" style="text-decoration: none; color: red;">eoghks5953</a>
-                            <div id="user-follow">
-                                <span>3명</span>
-                                <button class="btn btn-warning btn-sm" th:if="${sharedNote.followCheck} == false" th:onclick="'followAdd('+${sharedNote.noteResponse.userId}+')'">팔로우</button>
-                                <button class="btn btn-danger btn-sm" th:unless="${sharedNote.followCheck} == false" th:onclick="'followDelete('+${sharedNote.noteResponse.userId}+')'">팔로우 취소</button>
+                            <img src="#" alt="null" class="rounded-circle mr-1" style="height: 24px; width: 24px;">
+                            <a href="#" class="mr-2" style="text-decoration: none; color: red;">eoghks5953</a>
+                            <div id="user-follow" class="d-flex justify-content-center align-items-center">
+                                <span class="mr-1">3명</span>
+                                <button class="btn btn-outline-primary btn-sm" th:if="${sharedNote.followCheck} == false" th:onclick="'followAdd('+${sharedNote.noteResponse.userId}+')'">팔로우</button>
+                                <button class="btn btn-outline-danger btn-sm" th:unless="${sharedNote.followCheck} == false" th:onclick="'followDelete('+${sharedNote.noteResponse.userId}+')'">팔로우 취소</button>
                             </div>
                         </div>
                     </div>
@@ -207,7 +208,7 @@
     <script src="/js/demo/chart-pie-demo.js"></script>
     <script src="/js/custom/keyword.js"></script>
     <script src="/js/custom/like-note.js"></script>
-    <script src="/js/custom/user-follow.js"></script>
+    <script src="/js/custom/note-follow.js"></script>
 
 </body>
 </html>

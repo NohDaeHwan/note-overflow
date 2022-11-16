@@ -48,33 +48,31 @@
                 <div class="container-fluid">
 
                     <div>
-                        <div class="row d-flex justify-content-center align-items-center">
+                        <div class="row d-flex justify-content-center align-items-center mb-5">
                             <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-2 col-md-2">
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-end">
                                 <img class="rounded-circle" style="width: 200px; height: 200px; opacity: 50%" th:src="${noteUser.userImage}" alt="tree">
                             </div>
-                            <div class="col-xl-6 col-md-6">
+                            <div class="col-xl-4 col-md-4 d-flex justify-content-between">
                                 <div>
-                                    <h3 id="user-id" class="card-title text-mute font-weight-bold">eoghks5953</h3>
+                                    <div class="d-flex align-items-center">
+                                        <h3 id="user-id" class="card-title text-mute font-weight-bold mr-3">eoghks5953</h3>
+                                        <a sec:authorize="isAuthenticated()" class="btn btn-outline-secondary btn-sm mb-3" th:if="${noteUser.id == principalId}"
+                                           th:href="@{|/users/${principalId}/edit|}">프로필 수정</a>
+                                        <div id="user-follow" th:if="${noteUser.id != principalId}">
+                                            <button class="btn btn-outline-primary btn-sm mb-3" th:if="${followIs} == false"
+                                                    th:onclick="'followAdd('+${noteUser.id}+')'">팔로우</button>
+                                            <button class="btn btn-outline-danger btn-sm mb-3" th:unless="${followIs} == false"
+                                                    th:onclick="'followDelete('+${noteUser.id}+')'">팔로우 취소</button>
+                                        </div>
+                                    </div>
                                     <h5 id="user-email" class="card-subtitle text-dark mb-3 font-weight-lighter">eoghks@gmail.com</h5>
                                     <h5 id="user-phone" class="card-subtitle text-dark mb-3 font-weight-lighter">010-1234-5678</h5>
-                                    <button id="user-follower" type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#followersModal">팔로워 22</button>
-                                    <button id="user-following" type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#followModal">팔로우 23</button>
+                                    <a id="user-follower" href="#" data-bs-toggle="modal" style="text-decoration: none; color: black;"
+                                            data-bs-target="#followersModal">팔로워 22</a>
+                                    <a id="user-following" href="#" data-bs-toggle="modal" style="text-decoration: none; color: black;"
+                                            data-bs-target="#followModal">팔로우 23</a>
                                     <input type="hidden" name="principal" id="principal" th:value="${principalId}">
-                                </div>
-                            </div>
-                            <div class="col-xl-4 col-md-4 d-flex align-items-center">
-                                <div class="mr-4" th:if="${noteUser.id != principalId}">
-                                    <button class="btn btn-warning btn-sm" th:if="${followIs} == false"
-                                            th:onclick="'followAdd('+${noteUser.id}+')'">팔로우</button>
-                                    <button class="btn btn-danger btn-sm" th:unless="${followIs} == false"
-                                            th:onclick="'followDelete('+${noteUser.id}+')'">팔로우 취소</button>
-                                </div>
-                                <div class="mr-4" sec:authorize="isAuthenticated()">
-                                    <a class="btn btn-warning btn-sm" th:if="${noteUser.id == principalId}"
-                                       th:href="@{|/users/${principalId}/edit|}">프로필 수정</a>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +94,7 @@
                                         <a class="nav-link collapsed" href="#" data-toggle="collapse" th:data-target="'#collapseOne'+${num.count}"
                                            aria-expanded="true" th:aria-controls="'collapseOne'+${num.count}">
                                             <i class="fas fa-book-open" style="color:gray;">
-                                                <span th:text="${mCategory}">Spring</span>
+                                                <span th:text="${mCategory}" style="text-transform: capitalize;">Spring</span>
                                             </i>
                                         </a>
                                         <div th:id="'collapseOne'+${num.count}" class="collapse" th:aria-labelledby="'headingOne'+${num.count}" data-parent="#accordionSidebar">
@@ -124,7 +122,7 @@
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" th:data-target="'#collapseTwo'+${num.count}"
                                        aria-expanded="true" th:aria-controls="'collapseTwo'+${num.count}">
                                         <i class="fas fa-book-open" style="color:gray;">
-                                            <span th:text="${mCategory}">Spring</span>
+                                            <span th:text="${mCategory}" style="text-transform: capitalize;">Spring</span>
                                         </i>
                                     </a>
                                     <div th:id="'collapseTwo'+${num.count}" class="collapse" th:aria-labelledby="'headingTwo'+${num.count}" data-parent="#accordionSidebar">
@@ -165,7 +163,10 @@
                                                 </div>
                                                 <div id="note-tag">
                                                 </div>
-                                                <div id="note-main" class="border">
+                                                <div id="note-main" class="border p-5">
+                                                    <div class="d-flex align-items-center">
+                                                        <h5 style="text-align: center;">나만의 노트를 만들어 다른 사람들과 지식을 공유해보세요~!!</h5>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-1 col-md-1 mb-4">

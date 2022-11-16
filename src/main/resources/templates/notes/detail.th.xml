@@ -19,6 +19,7 @@
             <attr sel="span" th:text="' '+${sharedNote.likeCount}+'개'" />
         </attr>
         <attr sel="#note-nickname">
+            <attr sel="img" th:src="${sharedNote.noteResponse.usreImage}" />
             <attr sel="a" th:text="${sharedNote.noteResponse.nickname}" th:href="@{'/users/' + ${sharedNote.noteResponse.userId}}" />
             <attr sel="span" th:text="${sharedNote.noteResponse.followSize}+'명'" />
         </attr>

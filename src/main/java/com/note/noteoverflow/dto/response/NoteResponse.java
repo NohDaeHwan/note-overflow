@@ -17,16 +17,17 @@ public record NoteResponse(
         String email,
         Long userId,
         String nickname,
+        String usreImage,
         int followSize,
         List<NoteTagsResponse> noteTagsResponses
 ) {
 
     public static NoteResponse of(Long id, String title, String mCategory, String sCategory, String content,
                                   boolean sharing, LocalDateTime createdAt, String email, Long userId,
-                                  String nickname, int followSize, List<NoteTagsResponse> noteTagsResponses)
+                                  String nickname, String usreImage, int followSize, List<NoteTagsResponse> noteTagsResponses)
     {
         return new NoteResponse(id, title, mCategory, sCategory, content, sharing, createdAt, email,
-                userId, nickname, followSize, noteTagsResponses);
+                userId, nickname, usreImage, followSize, noteTagsResponses);
     }
 
     public static NoteResponse from(NoteDto dto) {
@@ -46,6 +47,7 @@ public record NoteResponse(
                 dto.userAccountDto().userEmail(),
                 dto.userAccountDto().id(),
                 nickname,
+                dto.userAccountDto().userImage(),
                 dto.userAccountDto().followCount(),
                 dto.noteTagsDtos().stream()
                         .map(NoteTagsResponse::from)

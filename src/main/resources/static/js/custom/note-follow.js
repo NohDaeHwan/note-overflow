@@ -8,7 +8,8 @@ function followAdd(userId) {
         if (response == -1) {
             location.href="/login";
         } else {
-            $("#user-follow").html("<button class='btn btn-outline-danger btn-sm mb-3' th:onclick='followDelete("+userId+")'>팔로우 취소</button>");
+            $("#user-follow").html("<span class='mr-1'>"+response+"명</span>" +
+                "<button class='btn btn-outline-danger btn-sm' th:onclick='followDelete("+userId+")'>팔로우 취소</button>");
         }
     }).fail(function(error) {
         alert(JSON.stringify(error));
@@ -26,7 +27,8 @@ function followDelete(userId) {
         if (response == -1) {
             location.href="/login";
         } else {
-            $("#user-follow").html("<button class='btn btn-outline-primary btn-sm mb-3' th:onclick='followAdd("+userId+")'>팔로우</button>");
+            $("#user-follow").html("<span class='mr-1'>"+response+"명</span>" +
+                "<button class='btn btn-outline-primary btn-sm' th:onclick='followAdd("+userId+")'>팔로우</button>");
         }
     }).fail(function(error) {
         alert(JSON.stringify(error));

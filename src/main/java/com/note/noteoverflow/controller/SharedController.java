@@ -48,6 +48,9 @@ public class SharedController {
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), notes.getTotalPages());
         NotificationResponse notificationResponse = sharedService.getNotification(loginId);
 
+        if (principal != null)
+            map.addAttribute("principalId", principal.id());
+
         map.addAttribute("page", "notes");
         map.addAttribute("paginationBarNumbers", barNumbers);
         map.addAttribute("notes", notes);
