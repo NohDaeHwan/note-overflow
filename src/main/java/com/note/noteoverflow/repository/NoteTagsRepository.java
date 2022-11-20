@@ -1,6 +1,5 @@
 package com.note.noteoverflow.repository;
 
-import com.note.noteoverflow.domain.Note;
 import com.note.noteoverflow.domain.NoteTags;
 import com.note.noteoverflow.domain.QNoteTags;
 import com.note.noteoverflow.dto.NoteIdDto;
@@ -35,7 +34,8 @@ public interface NoteTagsRepository extends
     }
 
     @Query(value = "SELECT DISTINCT new com.note.noteoverflow.dto.NoteIdDto(n.note.id, n.note.title, n.note.createdAt, n.note.createdBy)" +
-            "FROM NoteTags n WHERE n.tag IN (:tags) AND n.note.sharing = true AND n.note.id NOT IN (:noteId)")
+            "FROM NoteTags n WHERE n.tag IN (:tags) AND n.note.sharing = true AND n.note.id NOT IN (:noteId) ORDER BY n.note.userAccount.sharedCount DESC")
     List<NoteIdDto> findByTag(List<String> tags, Long noteId);
 
+    List<NoteTags> findByNoteId(Long noteId);
 }

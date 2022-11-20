@@ -61,6 +61,7 @@ public class SharedController {
     // 노트 상세 페이지
     @GetMapping("/detail/{noteId}")
     public String note(@PathVariable Long noteId,
+                       @RequestParam(defaultValue = "0") Long ntcation,
                        ModelMap map,
                        @AuthenticationPrincipal NotePrincipal principal) {
         Long loginId = 0L;
@@ -68,6 +69,9 @@ public class SharedController {
             loginId = principal.id();
         }
 
+        if (ntcation != 0) {
+            sharedService.notificationReading(ntcation);
+        }
         SharedWithCommentsResponse sharedNote = sharedService.getSharedWithComments(noteId, loginId);
         NotificationResponse notificationResponse = sharedService.getNotification(loginId);
         List<NoteIdDto> relatedNotes = sharedService.getRelatedNote(noteId);

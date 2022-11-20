@@ -86,7 +86,7 @@
                     </h6>
                     <th:block th:each="notification : ${notificationResponse.notificationDtos}">
                         <a class="dropdown-item d-flex align-items-center" th:if="${notification.noteId != null}"
-                           th:href="@{/notes/detail/{noteId}(noteId=${notification.noteId})}">
+                           th:href="@{|/notes/detail/${notification.noteId}?ntcation=${notification.id}|}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-warning">
                                     <img class="img-profile rounded-circle" style="width: 50px; height: 50px;"
@@ -100,7 +100,7 @@
                             </div>
                         </a>
                         <a class="dropdown-item d-flex align-items-center" th:unless="${notification.noteId != null}"
-                           th:href="@{/users/{userId}(userId=${notification.userId})}">
+                           th:href="@{|/users/${notification.userId}?ntcation=${notification.id}|}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-warning">
                                     <img class="img-profile rounded-circle" style="width: 50px; height: 50px;"
