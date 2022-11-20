@@ -38,9 +38,15 @@
                         <div class="form-group">
                             <input class="form-control" id="password" name="password" type="userPassword" maxlength="30" placeholder="userPassword" required/>
                         </div>
+                        <div class="form-group">
+                            <div class="alert alert-danger mt-5" th:if="${param.exception} != null" role="alert" th:text="'❗ '+${param.exception}">
+                            </div>
+                            <div th:if="${param.exception} == null" >
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4"></div>
-                </div><br/><br/><br/>
+                </div><br/>
                 <!-- Submit Button-->
                 <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase">Login</button></div>
             </form>

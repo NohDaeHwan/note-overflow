@@ -175,7 +175,12 @@ public class SharedService {
         }
 
         List<NoteIdDto> dtos = noteTagsRepository.findByTag(tags, noteId);
-        System.out.println(dtos);
         return dtos;
+    }
+
+    public void notificationReading(Long ntcation) {
+        Notification notification = notificationRepository.findById(ntcation).get();
+        notification.setReading(true);
+        notificationRepository.save(notification);
     }
 }

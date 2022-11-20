@@ -19,11 +19,12 @@ public record SharedResponse(
         LocalDateTime createdAt,
         String email,
         Long userId,
-        String nickname
+        String nickname,
+        String userImage
 ) {
     public static SharedResponse of(Long id, Long noteId, String title, String content, Set<NoteTagsResponse> noteTagsResponses, int viewCount,
-                                    int likeCount, LocalDateTime createdAt, String email, Long userId, String nickname) {
-        return new SharedResponse(id, noteId, title, content, noteTagsResponses, viewCount, likeCount, createdAt, email, userId, nickname);
+                                    int likeCount, LocalDateTime createdAt, String email, Long userId, String nickname, String userImage) {
+        return new SharedResponse(id, noteId, title, content, noteTagsResponses, viewCount, likeCount, createdAt, email, userId, nickname, userImage);
     }
 
     public static SharedResponse from(SharedDto dto) {
@@ -45,7 +46,8 @@ public record SharedResponse(
                 dto.createdAt(),
                 dto.userAccountDto().userEmail(),
                 dto.userAccountDto().id(),
-                nickname
+                nickname,
+                dto.userAccountDto().userImage()
         );
     }
 

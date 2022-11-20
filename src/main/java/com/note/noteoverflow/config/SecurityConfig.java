@@ -2,18 +2,24 @@ package com.note.noteoverflow.config;
 
 import com.note.noteoverflow.dto.security.NotePrincipal;
 import com.note.noteoverflow.repository.UserAccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+
+    private final AuthenticationFailureHandler customFailureHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -23,7 +29,9 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 )
                 .formLogin()
-                    .loginPage("/login").and()
+                    .loginPage("/login")
+                .failureHandler(customFailureHandler)
+                .and()
                 .logout()
                     .logoutSuccessUrl("/").and()
                 .build();
@@ -39,7 +47,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
 }

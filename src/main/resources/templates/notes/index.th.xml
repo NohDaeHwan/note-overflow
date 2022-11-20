@@ -31,6 +31,7 @@
                 </attr>
             </attr>
             <attr sel="div#note-create">
+                <attr sel="img" th:src="${note.userImage}" />
                 <attr sel="a" th:text="${note.nickname}" th:href="@{'/users/' + ${note.userId}}" />
                 <attr sel="code" th:datetime="${note.createdAt}" th:text="${#temporals.format(note.createdAt, 'yyyy-MM-dd')}" />
             </attr>

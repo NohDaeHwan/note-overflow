@@ -32,7 +32,7 @@ public class NoteTagsController {
 
     @GetMapping
     public String tags(@RequestParam(defaultValue = "") String tag,
-                       @PageableDefault(size = 10) Pageable pageable,
+                       @PageableDefault(size = 18) Pageable pageable,
                        @AuthenticationPrincipal NotePrincipal principal,
                        ModelMap map
     ) {

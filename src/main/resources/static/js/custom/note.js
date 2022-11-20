@@ -114,8 +114,12 @@ function noteUpdate(noteId) {
 			+ '<div class="form-group"> <label for="sCategory">Sub Category : </label>'
 			+ '<input class="form-control" id="sCategory" name="sCategory" type="text" value="'+response.sCategory+'" placeholder="Sub Category Here" required></div>'
 			+ '<div class="form-group"> <label for="tags">Tags : </label> <div class="input-group mb-3">');
-			for (var i = 0; i < response.noteTagsResponses.length; i++) {
-				$("#note-tag").html('<input class="form-control" id="tag'+i+'" name="tag'+i+'" type="text" value="'+response.noteTagsResponses[i].tag+'" placeholder="Tags Here" disabled>');
+			for (var i = 0; i < 5; i++) {
+				if (response.noteTagsResponses.length >= i+1) {
+					$("#note-tag").append('<input class="form-control" id="tag'+(i+1)+'" name="tag'+(i+1)+'" type="text" value="'+response.noteTagsResponses[i].tag+'" placeholder="Tags Here">');
+				} else {
+					$("#note-tag").append('<input class="form-control" id="tag'+(i+1)+'" name="tag'+(i+1)+'" type="text" placeholder="Tags Here">');
+				}
 			}
 		$("#note-main").html('</div>'
 		+ '<div class="form-group">'

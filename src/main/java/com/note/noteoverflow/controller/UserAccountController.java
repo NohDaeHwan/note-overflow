@@ -36,7 +36,7 @@ public class UserAccountController {
 
     @GetMapping("/users")
     public String users(@RequestParam(defaultValue = "") String user,
-                        @PageableDefault(size = 20) Pageable pageable,
+                        @PageableDefault(size = 9) Pageable pageable,
                         @AuthenticationPrincipal NotePrincipal principal,
                         ModelMap map
     ) {
@@ -58,12 +58,17 @@ public class UserAccountController {
     // User 마이페이지
     @GetMapping("/users/{userId}")
     public String user(@PathVariable Long userId,
+                       @RequestParam(defaultValue = "0") Long ntcation,
                        @AuthenticationPrincipal NotePrincipal principal,
                        ModelMap map
     ) {
         Long loginId = 0L;
         if (principal != null) {
             loginId = principal.id();
+        }
+
+        if (ntcation != 0) {
+            sharedService.notificationReading(ntcation);
         }
         if (principal != null && userId.equals(principal.id())) {
             // 로그인시 공유하지 않은 노트 리스트 조회
@@ -136,7 +141,7 @@ public class UserAccountController {
     // 팔요우 추가
     @ResponseBody
     @PostMapping("/user-follow/add/{userId}")
-    public ResponseEntity<Integer> likeNoteAdd(@PathVariable Long userId,
+    public ResponseEntity<Integer> followAdd(@PathVariable Long userId,
                                               @AuthenticationPrincipal NotePrincipal principal) {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.OK).body(Integer.valueOf(-1));
@@ -148,12 +153,24 @@ public class UserAccountController {
     // 팔로우 삭제
     @ResponseBody
     @PostMapping("/user-follow/delete/{userId}")
-    public ResponseEntity<Integer> likeNoteDelete(@PathVariable Long userId,
+    public ResponseEntity<Integer> followDelete(@PathVariable Long userId,
                                                   @AuthenticationPrincipal NotePrincipal principal) {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.OK).body(-1);
         }
         int result = mypageService.followDelete(userId, principal.toDto());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    // 팔로우 모달 삭제
+    @ResponseBody
+    @PostMapping("/user-follow-modal/delete/{userId}")
+    public ResponseEntity<Integer> followModalDelete(@PathVariable Long userId,
+                                                  @AuthenticationPrincipal NotePrincipal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(-1);
+        }
+        int result = mypageService.followModalDelete(userId, principal.toDto());
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
