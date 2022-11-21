@@ -1,10 +1,7 @@
 package com.note.noteoverflow.service;
 
 import com.note.noteoverflow.component.FileHandler;
-import com.note.noteoverflow.domain.Follow;
-import com.note.noteoverflow.domain.Note;
-import com.note.noteoverflow.domain.NoteTags;
-import com.note.noteoverflow.domain.UserAccount;
+import com.note.noteoverflow.domain.*;
 import com.note.noteoverflow.domain.type.RoleType;
 import com.note.noteoverflow.dto.FollowingDto;
 import com.note.noteoverflow.dto.NoteDto;
@@ -39,6 +36,8 @@ public class MypageService {
     private final FileHandler fileHandler;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final NotificationRepository notificationRepository;
 
     // 마이페이지에 개인 노트 리스트 불러오기
     @Transactional
@@ -121,12 +120,17 @@ public class MypageService {
     public int followAdd(Long userId, UserAccountDto toDto) {
         UserAccount userAccount = userAccountRepository.findById(userId).get();
         followRepository.save(Follow.of(userAccount, toDto.id()));
+        notificationRepository.save(Notification.of(userAccount, null, false, toDto.id(),
+                toDto.userImage(), toDto.nickname(), "님이 회원님을 팔로우 했습니다."));
         return followRepository.findByUserAccountId(userId).size();
     }
 
     @Transactional
     public Integer followDelete(Long userId, UserAccountDto toDto) {
+        UserAccount userAccount = userAccountRepository.findById(userId).get();
         followRepository.deleteByUserAccountIdAndFollowId(userId, toDto.id());
+        notificationRepository.save(Notification.of(userAccount, null, false, toDto.id(),
+                toDto.userImage(), toDto.nickname(), "님이 회원님을 팔로우 취소했습니다."));
         return followRepository.findByUserAccountId(userId).size();
     }
 

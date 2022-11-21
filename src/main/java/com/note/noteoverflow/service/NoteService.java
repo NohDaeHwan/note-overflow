@@ -40,7 +40,6 @@ public class NoteService {
                         noteTagsRepository.save(NoteTags.of(note, request.noteTagsRequests().get(i).tag()));
                     }
                 }
-                log.trace("개인 노트 작성");
                 return 1;
             }
         } catch (Exception e) {
